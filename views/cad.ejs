@@ -17,46 +17,82 @@
                 <ul class="flexContainerRow">
                     <li>
                         <form action="/newCall" method="GET">
-                            <input type="submit" value="Enter" target="_blank">
+                                <input type="submit" value="New Call" id="newCall">
                         </form>
                     </li>
                     <li>
                         <form action="/viewCall" method="GET">
-                            <input type="submit" value="Enter">
+                            <input type="submit" value="Previous Calls" disabled>
                         </form>
                     </li>
                     <li>
                         <form action="/newPerson" method="GET">
-                            <input type="submit" value="Enter">
+                            <input type="submit" value="Person" disabled>
                         </form>
                     </li>
                     <li>
                         <form action="/newVehicle" method="GET">
-                            <input type="submit" value="Enter">
+                            <input type="submit" value="Vehicle" disabled>
                         </form>
                     </li>
                     <li>
                         <form action="/MDT" method="GET">
-                            <input type="submit" value="Enter">
+                            <input type="submit" value="MDT" disabled>
                         </form>
                     </li>
                 </ul>
             </nav>
         </section>
         <section class="flexContainerRow">
-            <section class="calls">
-
-            </section>
-            <section class="call">
-                <form action="">
-                    <input type="text" value="">
-                    <input type="text" value="">
-                    <input type="text" value="">
-                    <input type="text" value="">
-                    <input type="text" value="">
-                    <input type="text" value="">
+            <aside class="calls">
+                <ul class="rappers">
+                    <% for (let i = 0; i < info.length; i++) { %>
+                        <li class="callList">
+                            <form action="/activeCall" method="GET">
+                                <button>
+                                    <span><%= info[i].time %></span>
+                                    <span><%= info[i].location %></span>
+                                    <span><%= info[i].type %></span> 
+                                </button>
+                            </form>
+                        </li>
+                    <% } %>
+                </ul>
+            </aside>
+            <main class="call">
+                <form action="/callInfo" method="POST">
+                    <section class="callInfo">
+                        <input type="date" placeholder="<%= info[1].date || 'Date' %>" name="date">
+                        <input type="time" placeholder="<%= info[1].time || 'Time' %>" name="time">
+                        <input type="text" placeholder="<%= info[1].location || 'Location' %>" name="location">
+                        <input type="text" placeholder="<%= info[1].type || 'Call Type' %>" name="type">
+                    </section>
+                    <section class="callerInfo">
+                        <input type="text" placeholder="<%= info[1].first || 'First Name' %>" name="first">
+                        <input type="text" placeholder="<%= info[1].last || 'Last Name' %>" name="last">
+                        <input type="text" placeholder="<%= info[1].phone || 'Phone Number' %>" name="phone">
+                    </section>
+                    <section class="callNotes">
+                        <input type="text" placeholder="<%= info[1].notes || 'Notes' %>" name="notes">
+                    </section>
+                    <section class="responseDepartment">
+                        <input type="text" placeholder="<%= info[1].apparatus || 'Apparatus' %>" name="apparatus">
+                        <input type="time" placeholder="<%= info[1].tone || 'Tone' %>" name="tone">
+                        <input type="time" placeholder="<%= info[1].enroute || 'En Route' %>" name="enroute">
+                        <input type="time" placeholder="<%= info[1].arrival || 'Arrival' %>" name="arrival">
+                        <input type="time" placeholder="<%= info[1].departure || 'Departure' %>" name="departure">
+                        <input type="time" placeholder="<%= info[1].return || 'Return' %>" name="return">
+                    </section>
+                    <section class="responseOther">
+                        <input type="text" placeholder="<%= info[1].contact || 'Contact' %>" name="contact">
+                        <input type="time" placeholder="<%= info[1].page || 'Page' %>" name="page">
+                        <input type="time" placeholder="<%= info[1].notify || 'Notify' %>" name="notify">
+                    </section>
+                    <section>
+                        <input type="submit">
+                    </section>
                 </form>
-            </section>
+            </main>
         </section>
     </section>
 

@@ -26,7 +26,7 @@ app.get('/', (req, res) => {
 
 // Load CAD 
 app.get('/cad',(req, res)=>{
-    db.collection('COMPUTER AIDED DISPATCH').find().toArray()
+    db.collection('calls').find().toArray()
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
@@ -35,7 +35,7 @@ app.get('/cad',(req, res)=>{
 
 // Load new call
 app.get('/newCall', (req, res) => {
-    db.collection('COMPUTER AIDED DISPATCH').find().toArray()
+    db.collection('calls').find().toArray()
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
@@ -44,7 +44,7 @@ app.get('/newCall', (req, res) => {
 
 // Load previous calls
 app.get('/viewCall', (req, res) => {
-    db.collection('COMPUTER AIDED DISPATCH').find().toArray()
+    db.collection('calls').find().toArray()
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
@@ -53,7 +53,7 @@ app.get('/viewCall', (req, res) => {
 
 // Load new person
 app.get('/newPerson', (req, res) => {
-    db.collection('COMPUTER AIDED DISPATCH').find().toArray()
+    db.collection('calls').find().toArray()
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
@@ -62,7 +62,7 @@ app.get('/newPerson', (req, res) => {
 
 // Load new vehicle
 app.get('/newVehicle', (req, res) => {
-    db.collection('COMPUTER AIDED DISPATCH').find().toArray()
+    db.collection('calls').find().toArray()
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
@@ -71,22 +71,52 @@ app.get('/newVehicle', (req, res) => {
 
 // Load MDT
 app.get('/MDT', (req, res) => {
-    db.collection('COMPUTER AIDED DISPATCH').find().toArray()
+    db.collection('calls').find().toArray()
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
     .catch(error => console.error(error))
 })
 
-// app.post('/addRapper', (request, response) => {
-//     db.collection('rappers').insertOne({stageName: request.body.stageName,
-//     birthName: request.body.birthName, likes: 0})
-//     .then(result => {
-//         console.log('Rapper Added')
-//         response.redirect('/')
-//     })
-//     .catch(error => console.error(error))
-// })
+// Load active call
+app.get('/activeCall', (req, res) => {
+    db.collection('calls').find().toArray()
+    .then(data => {
+        res.render('cad.ejs', { info: data })
+    })
+    .catch(error => console.error(error))
+})
+
+app.post('/callInfo', (req, res) => {
+    db.collection('calls').insertOne({
+        date: req.body.date,
+        time: req.body.time,
+        location: req.body.location,
+        type: req.body.type,
+
+        first: req.body.first,
+        last: req.body.last,
+        phone: req.body.phone,
+
+        notes: req.body.notes,
+
+        apparatus: req.body.apparatus,
+        tone: req.body.tone,
+        enroute: req.body.enroute,
+        arrival: req.body.arrival,
+        departure: req.body.departure,
+        return: req.body.return,
+
+        contact: req.body.contact,
+        page: req.body.page,
+        notify: req.body.notify,
+    })
+    .then(data => {
+        console.log('New call saved')
+        res.redirect('/cad')
+    })
+    .catch(error => console.error(error))
+})
 
 // app.put('/addOneLike', (request, response) => {
 //     db.collection('rappers').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
