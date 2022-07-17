@@ -45,16 +45,16 @@
         </section>
         <section class="flexContainerRow">
             <aside class="calls">
-                <ul class="rappers">
+                <ul>
                     <% for (let i = 0; i < info.length; i++) { %>
                         <li class="callList">
-                            <form action="/activeCall" method="GET">
-                                <button>
+
+                                <button value="<%= info[i]._id %>" class="activeCall">
                                     <span><%= info[i].time %></span>
                                     <span><%= info[i].location %></span>
                                     <span><%= info[i].type %></span> 
                                 </button>
-                            </form>
+
                         </li>
                     <% } %>
                 </ul>
@@ -68,9 +68,9 @@
                         <input type="text" placeholder="<%= info[1].type || 'Call Type' %>" name="type">
                     </section>
                     <section class="callerInfo">
-                        <input type="text" placeholder="<%= info[1].first || 'First Name' %>" name="first">
-                        <input type="text" placeholder="<%= info[1].last || 'Last Name' %>" name="last">
-                        <input type="text" placeholder="<%= info[1].phone || 'Phone Number' %>" name="phone">
+                        <input type="text" placeholder="<%= info[1].first || 'First Name' %>" name="first" id="first">
+                        <input type="text" placeholder="<%= info[1].last || 'Last Name' %>" name="last" id="last">
+                        <input type="text" placeholder="<%= info[1].phone || 'Phone Number' %>" name="phone" id="phone">
                     </section>
                     <section class="callNotes">
                         <input type="text" placeholder="<%= info[1].notes || 'Notes' %>" name="notes">

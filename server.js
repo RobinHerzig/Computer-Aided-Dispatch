@@ -79,14 +79,15 @@ app.get('/MDT', (req, res) => {
 })
 
 // Load active call
-app.get('/activeCall', (req, res) => {
+app.get('/displayActiveCall', (req, res) => {
     db.collection('calls').find().toArray()
     .then(data => {
-        res.render('cad.ejs', { info: data })
+        response.json(data)
     })
     .catch(error => console.error(error))
 })
 
+// Save active call information
 app.post('/callInfo', (req, res) => {
     db.collection('calls').insertOne({
         date: req.body.date,
