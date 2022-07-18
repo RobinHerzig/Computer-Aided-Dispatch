@@ -1,6 +1,7 @@
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
+const ObjectID = require('mongodb').ObjectID;
 const PORT = 8000
 require('dotenv').config()
 
@@ -112,30 +113,29 @@ app.get('/displayActiveCall', (req, res) => {
 
 // Save active call
 app.put('/saveCall', (req, res) => {
-    console.log('Saving call...')
-    db.collection('calls').updateOne({_id: req.body.id}, {$set: {
-            date: req.body.date,
-            time: req.body.time,
-            location: req.body.location,
-            type: req.body.type,
+    db.collection('calls').updateOne({ "_id": ObjectID(req.body.id)}, {$set: {
+        date: req.body.date,
+        time: req.body.time,
+        location: req.body.location,
+        type: req.body.type,
 
-            first: req.body.first,
-            last: req.body.last,
-            phone: req.body.phone,
+        first: req.body.first,
+        last: req.body.last,
+        phone: req.body.phone,
 
-            notes: req.body.notes,
+        notes: req.body.notes,
 
-            apparatus: req.body.apparatus,
-            tone: req.body.tone,
-            enroute: req.body.enroute,
-            arrival: req.body.arrival,
-            departure: req.body.departure,
-            quarters: req.body.quarters,
+        apparatus: req.body.apparatus,
+        tone: req.body.tone,
+        enroute: req.body.enroute,
+        arrival: req.body.arrival,
+        departure: req.body.departure,
+        quarters: req.body.quarters,
 
-            contact: req.body.contact,
-            page: req.body.page,
-            notify: req.body.notify,
-        },
+        contact: req.body.contact,
+        page: req.body.page,
+        notify: req.body.notify,
+        }
     })
     .then(data => {
         console.log('Saved active call')
