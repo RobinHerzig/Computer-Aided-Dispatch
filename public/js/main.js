@@ -39,7 +39,6 @@ saveCallButton.addEventListener('click', saveCall)
 async function saveCall() {
     try {
         const id = document.querySelector('#callId').value
-        console.log(id)
         const date = document.querySelector('#date').value
         const time = document.querySelector('#time').value
         const location = document.querySelector('#location').value
@@ -61,12 +60,12 @@ async function saveCall() {
         const contact = document.querySelector('#contact').value
         const page = document.querySelector('#page').value
         const notify = document.querySelector('#notify').value
-
+        
         const res = await fetch('saveCall', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-              '_id': id,
+              'id': id,
               'date': date,
               'time': time,
               'location': location,
@@ -92,15 +91,12 @@ async function saveCall() {
           })
         const data = await res.json()
         console.log(data)
-        // location.reload()
+        window.location.reload();
     }
     catch(err) {
         console.log(err)
     }
 }
-
-
-
 
 // const deleteText = document.querySelectorAll('.fa-trash')
 // const thumbText = document.querySelectorAll('.fa-thumbs-up')
