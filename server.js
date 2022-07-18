@@ -112,7 +112,8 @@ app.get('/displayActiveCall', (req, res) => {
 
 // Save active call
 app.put('/saveCall', (req, res) => {
-    db.collection('calls').updateOne({_id: req.body.id},{ $set: {
+    console.log('Saving call...')
+    db.collection('calls').updateOne({_id: req.body.id}, {$set: {
             date: req.body.date,
             time: req.body.time,
             location: req.body.location,
@@ -129,44 +130,19 @@ app.put('/saveCall', (req, res) => {
             enroute: req.body.enroute,
             arrival: req.body.arrival,
             departure: req.body.departure,
-            return: req.body.return,
+            quarters: req.body.quarters,
 
             contact: req.body.contact,
             page: req.body.page,
             notify: req.body.notify,
-        }
+        },
     })
     .then(data => {
-        console.log('Call saved')
-        res.json('data')
+        console.log('Saved active call')
+        res.json('Saved active call')
     })
     .catch(error => console.error(error))
 })
-
-// app.put('/addOneLike', (req, res) => {
-//     db.collection('rappers').updateOne({stageName: req.body.stageNameS, birthName: req.body.birthNameS,likes: req.body.likesS},{
-//         $set: {
-//             likes:req.body.likesS + 1
-//           }
-//     },{
-//         sort: {_id: -1},
-//         upsert: true
-//     })
-//     .then(result => {
-//         console.log('Added One Like')
-//         res.json('Like Added')
-//     })
-//     .catch(error => console.error(error))
-// })
-
-// app.delete('/deleteRapper', (req, res) => {
-//     db.collection('rappers').deleteOne({stageName: req.body.stageNameS})
-//     .then(result => {
-//         console.log('Rapper Deleted')
-//         res.json('Rapper Deleted')
-//     })
-//     .catch(error => console.error(error))
-// })
 
 app.listen(process.env.PORT || PORT, ()=>{
     console.log(`Server running on port ${PORT}`)

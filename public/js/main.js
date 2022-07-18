@@ -2,8 +2,8 @@ const activeCalls = document.querySelectorAll('.activeCall')
 Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displayActiveCall))
 
 async function displayActiveCall() {
-    var id = this.value
-    sessionStorage.removeItem('id')
+    const id = this.value
+    // sessionStorage.removeItem('id')
     sessionStorage.setItem('id', id)
     console.log(id)
     // if (!sessionStorage.getItem(id)) return
@@ -20,11 +20,11 @@ async function displayActiveCall() {
         console.log(info)
         for (let i = 0; i < info.length; i++) {
             if (info[i]._id == sessionStorage.getItem('id')) {
-                console.log(info[i].location)
-                document.querySelector('#date').value = info[i].date || 'Date'
-                document.querySelector('#time').value = info[i].time || 'Time'
+                document.querySelector('#callId').value = info[i]._id
+                document.querySelector('#date').value = info[i].date
+                document.querySelector('#time').value = info[i].time
                 document.querySelector('#location').value = info[i].location
-                document.querySelector('#type').value = info[i].type || 'Type'
+                document.querySelector('#type').value = info[i].type
             }
         }
     }
@@ -33,32 +33,71 @@ async function displayActiveCall() {
     }
 }
 
-// const saveCallButton = document.querySelector('#saveCall')
-// saveCallButton.addEventListener('click', saveCall)
+const saveCallButton = document.querySelector('#saveCallButton')
+saveCallButton.addEventListener('click', saveCall)
 
-// async function saveCall(){
-//     const id = this.data
-//     sessionStorage.removeItem('id')
-//     sessionStorage.setItem('id', id)
-//     console.log(id)
-//     console.log('Saving call')
+async function saveCall() {
+    try {
+        const id = document.querySelector('#callId').value
+        console.log(id)
+        const date = document.querySelector('#date').value
+        const time = document.querySelector('#time').value
+        const location = document.querySelector('#location').value
+        const type = document.querySelector('#type').value
 
-//     try{
-//         const response = await fetch('saveCall', {
-//             method: 'put',
-//             headers: {'Content-Type': 'application/json'},
-//             body: JSON.stringify({
-//               '_id': id
-//             })
-//           })
-//         const data = await response.json()
-//         console.log(data)
-//         location.reload()
+        const first = document.querySelector('#first').value
+        const last = document.querySelector('#last').value
+        const phone = document.querySelector('#phone').value
 
-//     }catch(err){
-//         console.log(err)
-//     }
-// }
+        const notes = document.querySelector('#notes').value
+
+        const apparatus = document.querySelector('#apparatus').value
+        const tone = document.querySelector('#tone').value
+        const enroute = document.querySelector('#enroute').value
+        const arrival = document.querySelector('#arrival').value
+        const departure = document.querySelector('#departure').value
+        const quarters = document.querySelector('#quarters').value
+
+        const contact = document.querySelector('#contact').value
+        const page = document.querySelector('#page').value
+        const notify = document.querySelector('#notify').value
+
+        const res = await fetch('saveCall', {
+            method: 'put',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              '_id': id,
+              'date': date,
+              'time': time,
+              'location': location,
+              'type': type,
+
+              'first': first,
+              'last': last,
+              'phone': phone,
+
+              'notes': notes,
+
+              'apparatus': apparatus,
+              'tone': tone,
+              'enroute': enroute,
+              'arrival': arrival,
+              'departure': departure,
+              'quarters': quarters,
+
+              'contact': contact,
+              'page': page,
+              'notify': notify
+            })
+          })
+        const data = await res.json()
+        console.log(data)
+        // location.reload()
+    }
+    catch(err) {
+        console.log(err)
+    }
+}
 
 
 
