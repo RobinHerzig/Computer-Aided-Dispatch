@@ -16,7 +16,7 @@
             <nav>
                 <ul class="flexContainerRow">
                     <li>
-                        <form action="/newCall" method="GET">
+                        <form action="/newCall" method="POST">
                                 <input type="submit" value="New Call" id="newCall">
                         </form>
                     </li>
@@ -60,38 +60,38 @@
                 </ul>
             </aside>
             <main class="call">
-                <form action="/callInfo" method="POST">
+                <!-- <form action="/saveCall" method="PUT"> -->
                     <section class="callInfo">
-                        <input type="date" placeholder="<%= info[1].date || 'Date' %>" name="date">
-                        <input type="time" placeholder="<%= info[1].time || 'Time' %>" name="time">
-                        <input type="text" placeholder="<%= info[1].location || 'Location' %>" name="location">
-                        <input type="text" placeholder="<%= info[1].type || 'Call Type' %>" name="type">
+                        <input type="date" placeholder="Date" name="date" id="date">
+                        <input type="time" placeholder="Time" name="time" id="time">
+                        <input type="text" placeholder="Location" name="location" id="location">
+                        <input type="text" placeholder="Type" name="type" id="type">
                     </section>
                     <section class="callerInfo">
-                        <input type="text" placeholder="<%= info[1].first || 'First Name' %>" name="first" id="first">
-                        <input type="text" placeholder="<%= info[1].last || 'Last Name' %>" name="last" id="last">
-                        <input type="text" placeholder="<%= info[1].phone || 'Phone Number' %>" name="phone" id="phone">
+                        <input type="text" placeholder="First Name" name="first" id="first">
+                        <input type="text" placeholder="Last Name" name="last" id="last">
+                        <input type="text" placeholder="Phone Number" name="phone" id="phone">
                     </section>
                     <section class="callNotes">
-                        <input type="text" placeholder="<%= info[1].notes || 'Notes' %>" name="notes">
+                        <input type="text" placeholder="Notes" name="notes">
                     </section>
                     <section class="responseDepartment">
-                        <input type="text" placeholder="<%= info[1].apparatus || 'Apparatus' %>" name="apparatus">
-                        <input type="time" placeholder="<%= info[1].tone || 'Tone' %>" name="tone">
-                        <input type="time" placeholder="<%= info[1].enroute || 'En Route' %>" name="enroute">
-                        <input type="time" placeholder="<%= info[1].arrival || 'Arrival' %>" name="arrival">
-                        <input type="time" placeholder="<%= info[1].departure || 'Departure' %>" name="departure">
-                        <input type="time" placeholder="<%= info[1].return || 'Return' %>" name="return">
+                        <input type="text" placeholder="Apparatus" name="apparatus">
+                        <input type="time" placeholder="Tone" name="tone">
+                        <input type="time" placeholder="En Route" name="enroute">
+                        <input type="time" placeholder="Arrival" name="arrival">
+                        <input type="time" placeholder="Departure" name="departure">
+                        <input type="time" placeholder="Return" name="return">
                     </section>
                     <section class="responseOther">
-                        <input type="text" placeholder="<%= info[1].contact || 'Contact' %>" name="contact">
-                        <input type="time" placeholder="<%= info[1].page || 'Page' %>" name="page">
-                        <input type="time" placeholder="<%= info[1].notify || 'Notify' %>" name="notify">
+                        <input type="text" placeholder="Contact" name="contact">
+                        <input type="time" placeholder="Page" name="page">
+                        <input type="time" placeholder="Notify" name="notify">
                     </section>
                     <section>
                         <input type="submit">
                     </section>
-                </form>
+                <!-- </form> -->
             </main>
         </section>
     </section>

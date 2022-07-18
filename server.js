@@ -34,10 +34,33 @@ app.get('/cad',(req, res)=>{
 })
 
 // Load new call
-app.get('/newCall', (req, res) => {
-    db.collection('calls').find().toArray()
+app.post('/newCall', (req, res) => {
+    db.collection('calls').insertOne({
+        date: req.body.date,
+        time: req.body.time,
+        location: req.body.location,
+        type: req.body.type,
+
+        first: req.body.first,
+        last: req.body.last,
+        phone: req.body.phone,
+
+        notes: req.body.notes,
+
+        apparatus: req.body.apparatus,
+        tone: req.body.tone,
+        enroute: req.body.enroute,
+        arrival: req.body.arrival,
+        departure: req.body.departure,
+        return: req.body.return,
+
+        contact: req.body.contact,
+        page: req.body.page,
+        notify: req.body.notify,
+    })
     .then(data => {
-        res.render('cad.ejs', { info: data })
+        console.log('New call saved')
+        res.redirect('/cad')
     })
     .catch(error => console.error(error))
 })
@@ -82,47 +105,48 @@ app.get('/MDT', (req, res) => {
 app.get('/displayActiveCall', (req, res) => {
     db.collection('calls').find().toArray()
     .then(data => {
-        response.json(data)
+        res.json(data)
     })
     .catch(error => console.error(error))
 })
 
-// Save active call information
-app.post('/callInfo', (req, res) => {
-    db.collection('calls').insertOne({
-        date: req.body.date,
-        time: req.body.time,
-        location: req.body.location,
-        type: req.body.type,
+// Save active call
+app.put('/saveCall', (req, res) => {
+    db.collection('calls').updateOne({_id: req.body.id},{ $set: {
+            date: req.body.date,
+            time: req.body.time,
+            location: req.body.location,
+            type: req.body.type,
 
-        first: req.body.first,
-        last: req.body.last,
-        phone: req.body.phone,
+            first: req.body.first,
+            last: req.body.last,
+            phone: req.body.phone,
 
-        notes: req.body.notes,
+            notes: req.body.notes,
 
-        apparatus: req.body.apparatus,
-        tone: req.body.tone,
-        enroute: req.body.enroute,
-        arrival: req.body.arrival,
-        departure: req.body.departure,
-        return: req.body.return,
+            apparatus: req.body.apparatus,
+            tone: req.body.tone,
+            enroute: req.body.enroute,
+            arrival: req.body.arrival,
+            departure: req.body.departure,
+            return: req.body.return,
 
-        contact: req.body.contact,
-        page: req.body.page,
-        notify: req.body.notify,
+            contact: req.body.contact,
+            page: req.body.page,
+            notify: req.body.notify,
+        }
     })
     .then(data => {
-        console.log('New call saved')
-        res.redirect('/cad')
+        console.log('Call saved')
+        res.json('data')
     })
     .catch(error => console.error(error))
 })
 
-// app.put('/addOneLike', (request, response) => {
-//     db.collection('rappers').updateOne({stageName: request.body.stageNameS, birthName: request.body.birthNameS,likes: request.body.likesS},{
+// app.put('/addOneLike', (req, res) => {
+//     db.collection('rappers').updateOne({stageName: req.body.stageNameS, birthName: req.body.birthNameS,likes: req.body.likesS},{
 //         $set: {
-//             likes:request.body.likesS + 1
+//             likes:req.body.likesS + 1
 //           }
 //     },{
 //         sort: {_id: -1},
@@ -130,16 +154,16 @@ app.post('/callInfo', (req, res) => {
 //     })
 //     .then(result => {
 //         console.log('Added One Like')
-//         response.json('Like Added')
+//         res.json('Like Added')
 //     })
 //     .catch(error => console.error(error))
 // })
 
-// app.delete('/deleteRapper', (request, response) => {
-//     db.collection('rappers').deleteOne({stageName: request.body.stageNameS})
+// app.delete('/deleteRapper', (req, res) => {
+//     db.collection('rappers').deleteOne({stageName: req.body.stageNameS})
 //     .then(result => {
 //         console.log('Rapper Deleted')
-//         response.json('Rapper Deleted')
+//         res.json('Rapper Deleted')
 //     })
 //     .catch(error => console.error(error))
 // })

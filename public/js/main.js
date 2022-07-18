@@ -2,7 +2,7 @@ const activeCalls = document.querySelectorAll('.activeCall')
 Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displayActiveCall))
 
 async function displayActiveCall() {
-    const id = this.value
+    var id = this.value
     sessionStorage.removeItem('id')
     sessionStorage.setItem('id', id)
     console.log(id)
@@ -16,13 +16,49 @@ async function displayActiveCall() {
             //   '_id': id,
             // })
         })
-        const data = await response.json()
-        console.log(data)
+        const info = await response.json()
+        console.log(info)
+        for (let i = 0; i < info.length; i++) {
+            if (info[i]._id == sessionStorage.getItem('id')) {
+                console.log(info[i].location)
+                document.querySelector('#date').value = info[i].date || 'Date'
+                document.querySelector('#time').value = info[i].time || 'Time'
+                document.querySelector('#location').value = info[i].location
+                document.querySelector('#type').value = info[i].type || 'Type'
+            }
+        }
     }
     catch(err) {
         console.log(err)
     }
 }
+
+// const saveCallButton = document.querySelector('#saveCall')
+// saveCallButton.addEventListener('click', saveCall)
+
+// async function saveCall(){
+//     const id = this.data
+//     sessionStorage.removeItem('id')
+//     sessionStorage.setItem('id', id)
+//     console.log(id)
+//     console.log('Saving call')
+
+//     try{
+//         const response = await fetch('saveCall', {
+//             method: 'put',
+//             headers: {'Content-Type': 'application/json'},
+//             body: JSON.stringify({
+//               '_id': id
+//             })
+//           })
+//         const data = await response.json()
+//         console.log(data)
+//         location.reload()
+
+//     }catch(err){
+//         console.log(err)
+//     }
+// }
 
 
 
