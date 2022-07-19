@@ -1,23 +1,20 @@
 const activeCalls = document.querySelectorAll('.activeCall')
 Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displayActiveCall))
 
+window.addEventListener('load', displayActiveCall)
+
 async function displayActiveCall() {
     const id = this.value
-    // sessionStorage.removeItem('id')
-    sessionStorage.setItem('id', id)
-    console.log(id)
-    // if (!sessionStorage.getItem(id)) return
+    
+    if (id) {
+        sessionStorage.setItem('id', id)
+    }
 
     try {
         const response = await fetch('displayActiveCall', {
             method: 'get',
-            // headers: {'Content-Type': 'application/json'},
-            // body: JSON.stringify({
-            //   '_id': id,
-            // })
         })
         const info = await response.json()
-        console.log(info)
         for (let i = 0; i < info.length; i++) {
             if (info[i]._id == sessionStorage.getItem('id')) {
                 document.querySelector('#callId').value = info[i]._id
@@ -25,6 +22,23 @@ async function displayActiveCall() {
                 document.querySelector('#time').value = info[i].time
                 document.querySelector('#location').value = info[i].location
                 document.querySelector('#type').value = info[i].type
+
+                document.querySelector('#first').value = info[i].first
+                document.querySelector('#last').value = info[i].last
+                document.querySelector('#phone').value = info[i].phone
+
+                document.querySelector('#notes').value = info[i].notes
+                
+                document.querySelector('#apparatus').value = info[i].apparatus
+                document.querySelector('#tone').value = info[i].tone
+                document.querySelector('#enroute').value = info[i].enroute
+                document.querySelector('#arrival').value = info[i].arrival
+                document.querySelector('#departure').value = info[i].departure
+                document.querySelector('#quarters').value = info[i].quarters
+
+                document.querySelector('#contact').value = info[i].contact
+                document.querySelector('#page').value = info[i].page
+                document.querySelector('#notify').value = info[i].notify
             }
         }
     }
@@ -97,58 +111,3 @@ async function saveCall() {
         console.log(err)
     }
 }
-
-// const deleteText = document.querySelectorAll('.fa-trash')
-// const thumbText = document.querySelectorAll('.fa-thumbs-up')
-
-// Array.from(deleteText).forEach((element)=>{
-//     element.addEventListener('click', deleteRapper)
-// })
-
-// Array.from(thumbText).forEach((element)=>{
-//     element.addEventListener('click', addLike)
-// })
-
-// async function deleteRapper(){
-//     const sName = this.parentNode.childNodes[1].innerText
-//     const bName = this.parentNode.childNodes[3].innerText
-//     try{
-//         const response = await fetch('deleteRapper', {
-//             method: 'delete',
-//             headers: {'Content-Type': 'application/json'},
-//             body: JSON.stringify({
-//               'stageNameS': sName,
-//               'birthNameS': bName
-//             })
-//           })
-//         const data = await response.json()
-//         console.log(data)
-//         location.reload()
-
-//     }catch(err){
-//         console.log(err)
-//     }
-// }
-
-// async function addLike(){
-//     const sName = this.parentNode.childNodes[1].innerText
-//     const bName = this.parentNode.childNodes[3].innerText
-//     const tLikes = Number(this.parentNode.childNodes[5].innerText)
-//     try{
-//         const response = await fetch('addOneLike', {
-//             method: 'put',
-//             headers: {'Content-Type': 'application/json'},
-//             body: JSON.stringify({
-//               'stageNameS': sName,
-//               'birthNameS': bName,
-//               'likesS': tLikes
-//             })
-//           })
-//         const data = await response.json()
-//         console.log(data)
-//         location.reload()
-
-//     }catch(err){
-//         console.log(err)
-//     }
-// }
