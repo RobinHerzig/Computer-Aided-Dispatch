@@ -12,90 +12,84 @@
 <body>
 
     <section class="flexContainerColumn">
-        <section class="menu">
-            <nav>
-                <ul class="flexContainerRow">
+        <nav class="menu">
+            <ul class="flexContainerRow">
+                <li>
+                    <form action="/newCall" method="POST">
+                            <input type="submit" value="New Call" id="newCall">
+                    </form>
+                </li>
+                <li>
+                    <form action="/viewCall" method="GET">
+                        <input type="submit" value="Previous Calls" disabled>
+                    </form>
+                </li>
+                <li>
+                    <form action="/newPerson" method="GET">
+                        <input type="submit" value="Person" disabled>
+                    </form>
+                </li>
+                <li>
+                    <form action="/newVehicle" method="GET">
+                        <input type="submit" value="Vehicle" disabled>
+                    </form>
+                </li>
+                <li>
+                    <form action="/MDT" method="GET">
+                        <input type="submit" value="MDT" disabled>
+                    </form>
+                </li>
+            </ul>
+        </nav>
+        <header class="callList">
+            <ul>
+                <% for (let i = 0; i < info.length; i++) { %>
                     <li>
-                        <form action="/newCall" method="POST">
-                                <input type="submit" value="New Call" id="newCall">
-                        </form>
+                            <button value="<%= info[i]._id %>" class="activeCall">
+                                <span><%= info[i].time %></span>
+                                <span><%= info[i].location %></span>
+                                <span><%= info[i].type %></span> 
+                            </button>
                     </li>
-                    <li>
-                        <form action="/viewCall" method="GET">
-                            <input type="submit" value="Previous Calls" disabled>
-                        </form>
-                    </li>
-                    <li>
-                        <form action="/newPerson" method="GET">
-                            <input type="submit" value="Person" disabled>
-                        </form>
-                    </li>
-                    <li>
-                        <form action="/newVehicle" method="GET">
-                            <input type="submit" value="Vehicle" disabled>
-                        </form>
-                    </li>
-                    <li>
-                        <form action="/MDT" method="GET">
-                            <input type="submit" value="MDT" disabled>
-                        </form>
-                    </li>
-                </ul>
-            </nav>
-        </section>
-        <section class="flexContainerRow">
-            <aside class="calls">
-                <ul>
-                    <% for (let i = 0; i < info.length; i++) { %>
-                        <li class="callList">
-
-                                <button value="<%= info[i]._id %>" class="activeCall">
-                                    <span><%= info[i].time %></span>
-                                    <span><%= info[i].location %></span>
-                                    <span><%= info[i].type %></span> 
-                                </button>
-
-                        </li>
-                    <% } %>
-                </ul>
-            </aside>
-            <main class="call">
-                <form>
-                    <section class="callInfo">
-                        <input type="test" placeholder="ID" name="callId" id="callId">
-                        <input type="date" placeholder="Date" name="date" id="date">
-                        <input type="time" placeholder="Time" name="time" id="time">
-                        <input type="text" placeholder="Location" name="location" id="location">
-                        <input type="text" placeholder="Type" name="type" id="type">
-                    </section>
-                    <section class="callerInfo">
-                        <input type="text" placeholder="First Name" name="first" id="first">
-                        <input type="text" placeholder="Last Name" name="last" id="last">
-                        <input type="text" placeholder="Phone Number" name="phone" id="phone">
-                    </section>
-                    <section class="callNotes">
-                        <input type="text" placeholder="Notes" name="notes" id="notes">
-                    </section>
-                    <section class="responseDepartment">
-                        <input type="text" placeholder="Apparatus" name="apparatus" id="apparatus">
-                        <input type="time" placeholder="Tone" name="tone" id="tone">
-                        <input type="time" placeholder="En Route" name="enroute" id="enroute">
-                        <input type="time" placeholder="Arrival" name="arrival" id="arrival">
-                        <input type="time" placeholder="Departure" name="departure" id="departure">
-                        <input type="time" placeholder="Quarters" name="quarters" id="quarters">
-                    </section>
-                    <section class="responseOther">
-                        <input type="text" placeholder="Contact" name="contact" id="contact">
-                        <input type="time" placeholder="Page" name="page" id="page">
-                        <input type="time" placeholder="Notify" name="notify" id="notify">
-                    </section>
-                    <section>
-                        <!-- <input type="submit" value="Save Call" id="saveCall"> -->
-                        <p id="saveCallButton">Save Call</p>
-                    </section>
-                </form>
-            </main>
-        </section>
+                <% } %>
+            </ul>
+        </header>
+        <main class="selectedCall">
+            <form>
+                <section class="callInfo">
+                    <input hidden type="test" placeholder="ID" name="callId" id="callId">
+                    <input type="date" placeholder="Date" name="date" id="date">
+                    <input type="time" placeholder="Time" name="time" id="time">
+                    <input type="text" placeholder="Location" name="location" id="location">
+                    <input type="text" placeholder="Type" name="type" id="type">
+                </section>
+                <section class="callNotes">
+                    <input type="text" placeholder="Notes" name="notes" id="notes">
+                </section>
+                <section class="responseDepartment">
+                    <input type="text" placeholder="Apparatus" name="apparatus" id="apparatus">
+                    <input type="time" placeholder="Tone" name="tone" id="tone">
+                    <input type="time" placeholder="En Route" name="enroute" id="enroute">
+                    <input type="time" placeholder="Arrival" name="arrival" id="arrival">
+                    <input type="time" placeholder="Departure" name="departure" id="departure">
+                    <input type="time" placeholder="Quarters" name="quarters" id="quarters">
+                </section>
+                <section class="responseOther">
+                    <input type="text" placeholder="Contact" name="contact" id="contact">
+                    <input type="time" placeholder="Page" name="page" id="page">
+                    <input type="time" placeholder="Notify" name="notify" id="notify">
+                </section>
+                <section class="callerInfo">
+                    <input type="text" placeholder="First Name" name="first" id="first">
+                    <input type="text" placeholder="Last Name" name="last" id="last">
+                    <input type="text" placeholder="Phone Number" name="phone" id="phone">
+                </section>
+                <section>
+                    <!-- <input type="submit" value="Save Call" id="saveCall"> -->
+                    <button id="saveCallButton">Save Call</button>
+                </section>
+            </form>
+        </main>
     </section>
 
     <!-- <form action="/addRapper" method="POST">
