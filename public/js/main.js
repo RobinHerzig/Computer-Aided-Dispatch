@@ -1,7 +1,7 @@
+// Display call from list
+
 const activeCalls = document.querySelectorAll('.activeCall')
 Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displayActiveCall))
-
-window.addEventListener('load', displayActiveCall)
 
 async function displayActiveCall() {
     const id = this.value
@@ -46,6 +46,60 @@ async function displayActiveCall() {
         console.log(err)
     }
 }
+
+// Display call after load
+
+window.addEventListener('load', displayActiveCall)
+
+// Display new call as active
+
+const newCallButton = document.querySelector("#newCall")
+newCallButton.addEventListener('click', createCall)
+
+async function createCall() {
+    try {
+        const res = await fetch('createCall', {
+            method: 'post',
+            headers: {'Content-Type': 'application/json'},
+            // body: JSON.stringify({
+            //   'id': id,
+            //   'date': date,
+            //   'time': time,
+            //   'location': location,
+            //   'type': type,
+
+            //   'first': first,
+            //   'last': last,
+            //   'phone': phone,
+
+            //   'notes': notes,
+
+            //   'apparatus': apparatus,
+            //   'tone': tone,
+            //   'enroute': enroute,
+            //   'arrival': arrival,
+            //   'departure': departure,
+            //   'quarters': quarters,
+
+            //   'contact': contact,
+            //   'page': page,
+            //   'notify': notify
+            // })
+          })
+        const data = await res.json()
+        console.log(data)
+        const id = data.insertedId
+        if (id) {
+            sessionStorage.setItem('id', id)
+        }
+        window.location.reload();
+    }
+    catch(err) {
+        console.log(err)
+    }
+}
+
+// Save call
 
 const saveCallButton = document.querySelector('#saveCallButton')
 saveCallButton.addEventListener('click', saveCall)

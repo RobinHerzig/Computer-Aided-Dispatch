@@ -10,14 +10,16 @@
     <title>CAD Prototype</title>
 </head>
 <body>
-
     <section class="flexContainerColumn">
         <nav class="menu">
             <ul class="flexContainerRow">
-                <li>
+                <!-- <li>
                     <form action="/newCall" method="POST">
                             <input type="submit" value="New Call" id="newCall">
                     </form>
+                </li> -->
+                <li>
+                    <button type="submit" id="newCall">New Call</button>
                 </li>
                 <li>
                     <form action="/viewCall" method="GET">
@@ -85,20 +87,11 @@
                     <input type="text" placeholder="Phone Number" name="phone" id="phone">
                 </section>
                 <section>
-                    <!-- <input type="submit" value="Save Call" id="saveCall"> -->
                     <button id="saveCallButton">Save Call</button>
                 </section>
             </form>
         </main>
     </section>
-
-    <!-- <form action="/addRapper" method="POST">
-        <input type="text" placeholder="Stage Name" name="stageName">
-        <input type="text" placeholder="Birth Name" name="birthName">
-        <input type="submit">
-    </form> -->
-    
-
     <script src='js/main.js'></script>
 </body>
 </html>

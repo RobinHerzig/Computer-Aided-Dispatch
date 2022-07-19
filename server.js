@@ -34,8 +34,8 @@ app.get('/cad',(req, res)=>{
     .catch(error => console.error(error))
 })
 
-// Load new call
-app.post('/newCall', (req, res) => {
+// Create new call
+app.post('/createCall', (req, res) => {
     db.collection('calls').insertOne({
         date: req.body.date,
         time: req.body.time,
@@ -60,44 +60,8 @@ app.post('/newCall', (req, res) => {
         notify: req.body.notify,
     })
     .then(data => {
-        console.log('New call saved')
-        res.redirect('/cad')
-    })
-    .catch(error => console.error(error))
-})
-
-// Load previous calls
-app.get('/viewCall', (req, res) => {
-    db.collection('calls').find().toArray()
-    .then(data => {
-        res.render('cad.ejs', { info: data })
-    })
-    .catch(error => console.error(error))
-})
-
-// Load new person
-app.get('/newPerson', (req, res) => {
-    db.collection('calls').find().toArray()
-    .then(data => {
-        res.render('cad.ejs', { info: data })
-    })
-    .catch(error => console.error(error))
-})
-
-// Load new vehicle
-app.get('/newVehicle', (req, res) => {
-    db.collection('calls').find().toArray()
-    .then(data => {
-        res.render('cad.ejs', { info: data })
-    })
-    .catch(error => console.error(error))
-})
-
-// Load MDT
-app.get('/MDT', (req, res) => {
-    db.collection('calls').find().toArray()
-    .then(data => {
-        res.render('cad.ejs', { info: data })
+        console.log('Created new call')
+        res.json(data)
     })
     .catch(error => console.error(error))
 })
