@@ -31,7 +31,7 @@ app.get('/cad',(req, res)=>{
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
-    .catch(error => console.error(error))
+    .catch(err => console.err(err))
 })
 
 // Create new call
@@ -63,7 +63,7 @@ app.post('/createCall', (req, res) => {
         console.log('Created new call')
         res.json(data)
     })
-    .catch(error => console.error(error))
+    .catch(err => console.err(err))
 })
 
 // Load active call
@@ -72,7 +72,7 @@ app.get('/displayActiveCall', (req, res) => {
     .then(data => {
         res.json(data)
     })
-    .catch(error => console.error(error))
+    .catch(err => console.err(err))
 })
 
 // Save active call
@@ -105,8 +105,21 @@ app.put('/saveCall', (req, res) => {
         console.log('Saved active call')
         res.json('Saved active call')
     })
-    .catch(error => console.error(error))
+    .catch(err => console.err(err))
 })
+
+// Delete active call
+
+app.delete('/deleteCall', (req, res) => {
+    db.collection('calls').deleteOne({ "_id": ObjectID(req.body.id)})
+    .then(result => {
+        console.log('Deleted active call')
+        res.json('Deleted active call')
+    })
+    .catch(err => console.err(err))
+})
+
+// Port
 
 app.listen(process.env.PORT || PORT, ()=>{
     console.log(`Server running on port ${PORT}`)

@@ -11,10 +11,10 @@ async function displayActiveCall() {
     }
 
     try {
-        const response = await fetch('displayActiveCall', {
+        const res = await fetch('displayActiveCall', {
             method: 'get',
         })
-        const info = await response.json()
+        const info = await res.json()
         for (let i = 0; i < info.length; i++) {
             if (info[i]._id == sessionStorage.getItem('id')) {
                 document.querySelector('#callId').value = info[i]._id
@@ -162,6 +162,31 @@ async function saveCall() {
         window.location.reload();
     }
     catch(err) {
+        console.log(err)
+    }
+}
+
+// Delete call
+
+const deleteCallButton = document.querySelector('#deleteCallButton')
+deleteCallButton.addEventListener('click', deleteCall)
+
+async function deleteCall() {
+    const id = document.querySelector('#callId').value
+
+    try{
+        const response = await fetch('deleteCall', {
+            method: 'delete',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+              'id': id,
+            })
+          })
+        const data = await response.json()
+        console.log(data)
+        location.reload()
+
+    }catch(err){
         console.log(err)
     }
 }
