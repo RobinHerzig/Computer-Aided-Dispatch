@@ -1,22 +1,21 @@
-// Display call from list
+// Display selected call from active call list
 
 const activeCalls = document.querySelectorAll('.activeCall')
-Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displayActiveCall))
+Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displaySelectedCall))
 
-async function displayActiveCall() {
+async function displaySelectedCall() {
     const id = this.value
-    
     if (id) {
         sessionStorage.setItem('id', id)
     }
-
+    const idSessionStorage = sessionStorage.getItem('id')
     try {
-        const res = await fetch('displayActiveCall', {
+        const res = await fetch('displaySelectedCall', {
             method: 'get',
         })
         const info = await res.json()
         for (let i = 0; i < info.length; i++) {
-            if (info[i]._id == sessionStorage.getItem('id')) {
+            if (info[i]._id == idSessionStorage) {
                 document.querySelector('#callId').value = info[i]._id
                 document.querySelector('#date').value = info[i].date
                 document.querySelector('#time').value = info[i].time
@@ -41,17 +40,23 @@ async function displayActiveCall() {
                 document.querySelector('#notify').value = info[i].notify
             }
         }
+        highlightSelectedCall(info)
     }
     catch(err) {
         console.log(err)
     }
+    // finally(res) {
+    //     const data = res
+    //     highlightSelectedCall(data)
+    // }
+
 }
 
-// Display call after load
+// Automatically select call after page load
 
-window.addEventListener('load', displayActiveCall)
+window.addEventListener('load', displaySelectedCall)
 
-// Display new call as active
+// Automatically select newly created call
 
 const newCallButton = document.querySelector("#newCall")
 newCallButton.addEventListener('click', createCall)
@@ -61,30 +66,6 @@ async function createCall() {
         const res = await fetch('createCall', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
-            // body: JSON.stringify({
-            //   'id': id,
-            //   'date': date,
-            //   'time': time,
-            //   'location': location,
-            //   'type': type,
-
-            //   'first': first,
-            //   'last': last,
-            //   'phone': phone,
-
-            //   'notes': notes,
-
-            //   'apparatus': apparatus,
-            //   'tone': tone,
-            //   'enroute': enroute,
-            //   'arrival': arrival,
-            //   'departure': departure,
-            //   'quarters': quarters,
-
-            //   'contact': contact,
-            //   'page': page,
-            //   'notify': notify
-            // })
           })
         const data = await res.json()
         console.log(data)
@@ -99,12 +80,33 @@ async function createCall() {
     }
 }
 
-// Save call
+// Automatically highlight selected call in call list
+
+const highlightSelectedCall = async function(info) {
+    const idSessionStorage = sessionStorage.getItem('id')
+    const activeCallArray = Array.from(activeCalls)
+
+    try {
+        for (let i = 0; i < info.length; i++) {
+            if (info[i]._id == idSessionStorage) {
+                activeCallArray[i].style.background = 'grey'
+            }
+            else {
+                activeCallArray[i].style.background = 'transparent'
+            }
+        }
+    }
+    catch(err) {
+        console.log(err)
+    }
+}
+
+// Save selected call
 
 const saveCallButton = document.querySelector('#saveCallButton')
-saveCallButton.addEventListener('click', saveCall)
+saveCallButton.addEventListener('click', saveSelectedCall)
 
-async function saveCall() {
+async function saveSelectedCall() {
     try {
         const id = document.querySelector('#callId').value
         const date = document.querySelector('#date').value
@@ -129,7 +131,7 @@ async function saveCall() {
         const page = document.querySelector('#page').value
         const notify = document.querySelector('#notify').value
         
-        const res = await fetch('saveCall', {
+        const res = await fetch('saveSelectedCall', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -158,7 +160,6 @@ async function saveCall() {
             })
           })
         const data = await res.json()
-        console.log(data)
         window.location.reload();
     }
     catch(err) {
@@ -166,16 +167,15 @@ async function saveCall() {
     }
 }
 
-// Delete call
+// Delete selected call
 
 const deleteCallButton = document.querySelector('#deleteCallButton')
-deleteCallButton.addEventListener('click', deleteCall)
+deleteCallButton.addEventListener('click', deleteSelectedCall)
 
-async function deleteCall() {
+async function deleteSelectedCall() {
     const id = document.querySelector('#callId').value
-
-    try{
-        const response = await fetch('deleteCall', {
+    try {
+        const response = await fetch('deleteSelectedCall', {
             method: 'delete',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -183,10 +183,10 @@ async function deleteCall() {
             })
           })
         const data = await response.json()
-        console.log(data)
-        location.reload()
+        window.location.reload();
 
-    }catch(err){
+    }
+    catch(err) {
         console.log(err)
     }
 }

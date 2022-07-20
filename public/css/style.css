@@ -57,7 +57,24 @@ a:hover {
     justify-content: center;
 }
 
+.menu button {
+    /* height: 100px;
+    width: 100px; */
+}
 
+/* .callListTime, .callListLocation, .callListType {
+    min-width: 200px;
+} */
+
+.callList li {
+    /* height: 21px; */
+}
+
+.callList button {
+    width: min(80%, 1000px);
+    height: 21px;
+    margin: .1rem;
+}
 
 /******************************************
 /* HOMEPAGE

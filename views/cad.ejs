@@ -13,11 +13,6 @@
     <section class="flexContainerColumn">
         <nav class="menu">
             <ul class="flexContainerRow">
-                <!-- <li>
-                    <form action="/newCall" method="POST">
-                            <input type="submit" value="New Call" id="newCall">
-                    </form>
-                </li> -->
                 <li>
                     <button type="submit" id="newCall">New Call</button>
                 </li>
@@ -44,14 +39,14 @@
             </ul>
         </nav>
         <header class="callList">
-            <ul>
+            <ul class="flexContainerColumn">
                 <% for (let i = 0; i < info.length; i++) { %>
                     <li>
-                            <button value="<%= info[i]._id %>" class="activeCall">
-                                <span><%= info[i].time %></span>
-                                <span><%= info[i].location %></span>
-                                <span><%= info[i].type %></span> 
-                            </button>
+                        <button value="<%= info[i]._id %>" class="activeCall">
+                            <span class="callListTime"><%= info[i].time %></span>
+                            <span class="callListLocation"><%= info[i].location %></span>
+                            <span class="callListType"><%= info[i].type %></span> 
+                        </button>
                     </li>
                 <% } %>
             </ul>

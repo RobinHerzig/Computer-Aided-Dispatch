@@ -66,17 +66,18 @@ app.post('/createCall', (req, res) => {
     .catch(err => console.err(err))
 })
 
-// Load active call
-app.get('/displayActiveCall', (req, res) => {
+// Display selected call
+app.get('/displaySelectedCall', (req, res) => {
     db.collection('calls').find().toArray()
     .then(data => {
+        console.log('Displayed selected call')
         res.json(data)
     })
     .catch(err => console.err(err))
 })
 
-// Save active call
-app.put('/saveCall', (req, res) => {
+// Save selected call
+app.put('/saveSelectedCall', (req, res) => {
     db.collection('calls').updateOne({ "_id": ObjectID(req.body.id)}, {$set: {
         date: req.body.date,
         time: req.body.time,
@@ -102,19 +103,19 @@ app.put('/saveCall', (req, res) => {
         }
     })
     .then(data => {
-        console.log('Saved active call')
-        res.json('Saved active call')
+        console.log('Saved selected call')
+        res.json('Saved selected call')
     })
     .catch(err => console.err(err))
 })
 
-// Delete active call
+// Delete selected call
 
-app.delete('/deleteCall', (req, res) => {
+app.delete('/deleteSelectedCall', (req, res) => {
     db.collection('calls').deleteOne({ "_id": ObjectID(req.body.id)})
     .then(result => {
-        console.log('Deleted active call')
-        res.json('Deleted active call')
+        console.log('Deleted selected call')
+        res.json('Deleted selected call')
     })
     .catch(err => console.err(err))
 })
