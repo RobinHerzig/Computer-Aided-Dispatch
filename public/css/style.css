@@ -2,44 +2,50 @@
 /* BASE STYLES
 /*******************************************/
 
-/* * {
-  outline: 2px solid blue;
-} */
+* {
+  /* outline: 2px solid blue; */
+}
 
 :root {
-    --background: lightgrey;
+    --background: rgb(63, 63, 63);
+    --font-size: 1.8rem;
 }
 
 html {
     font-size: 62.5%;
-    /* font-family: 'Courier New', Courier, monospace; */
+    font-family: 'Courier New', Courier, monospace;
 }
 
 body {
     background-color: var(--background);
-    font-size: 1.6rem;
-    color: black;
+    font-size: var(--font-size);
+    color: white;
 }
 
-h1 {
+/* h1 {
 
-}
+} */
 
-h2, h3, h4, h5, h6 {
+/* h2, h3, h4, h5, h6 {
 
-}
+} */
 
-p, span, li, input {
+/* p, span, li, input {
 
-}
+} */
 
 a {
   text-decoration: none;
   font-weight: 700;
 }
 
-a:hover {
+/* a:hover {
 
+} */
+
+input, button {
+    font-size: var(--font-size);
+    font-family: 'Courier New', Courier, monospace;
 }
 
 /******************************************
@@ -53,26 +59,46 @@ a:hover {
 }
 
 .menu {
-    display: flex;
+    grid-area: menu;
+}
+
+.menuList {
     justify-content: center;
 }
 
-.menu button {
-    /* height: 100px;
-    width: 100px; */
+.callList {
+    grid-area: callList;
 }
+
+.selectedCall {
+    grid-area: selectedCall;
+}
+
+.selectedCall section, .callList ul {
+    margin: 3rem auto;
+    /* border: 1px solid black; */
+}
+
+fieldset {
+    border: 1px solid black;
+}
+
+/* .menu button {
+    height: 100px;
+    width: 100px;
+} */
 
 /* .callListTime, .callListLocation, .callListType {
     min-width: 200px;
 } */
 
-.callList li {
-    /* height: 21px; */
-}
+/* .callList li {
+    height: 21px;
+} */
 
 .callList button {
-    width: min(80%, 1000px);
-    height: 21px;
+    width: min(95%, 1000px);
+    min-height: 29px;
     margin: .1rem;
 }
 
@@ -109,15 +135,26 @@ a:hover {
     clear: both;
 }
 
-.flexContainerColumn {
+.flexColumn {
     display: flex;
     flex-direction: column;
 }
 
-.flexContainerRow {
+.flexRow {
     display: flex;
     flex-direction: row;
 }
+
+.gridContainer {
+    display: grid;
+    grid-template-areas:
+        "menu menu menu"
+        "callList selectedCall selectedCall"
+}
+
+/* .gridItem {
+
+} */
 
 /******************************************
 /* MEDIA

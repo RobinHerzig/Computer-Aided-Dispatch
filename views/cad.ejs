@@ -7,12 +7,12 @@
     <link rel="icon" type="image/png" href="/images/favicon.png"/>
     <link rel="stylesheet" href="css/reset.css">
     <link rel="stylesheet" href="css/style.css">
-    <title>CAD Prototype</title>
+    <title>Computer-Aided Dispatch</title>
 </head>
 <body>
-    <section class="flexContainerColumn">
-        <nav class="menu">
-            <ul class="flexContainerRow">
+    <section class="gridContainer">
+        <nav class="menu gridItem">
+            <ul class="menuList flexRow">
                 <li>
                     <button type="submit" id="newCall">New Call</button>
                 </li>
@@ -38,8 +38,9 @@
                 </li>
             </ul>
         </nav>
-        <header class="callList">
-            <ul class="flexContainerColumn">
+        <header class="callList gridItem">
+            <h2>Call List</h2>
+            <ul>
                 <% for (let i = 0; i < info.length; i++) { %>
                     <li>
                         <button value="<%= info[i]._id %>" class="activeCall">
@@ -51,39 +52,95 @@
                 <% } %>
             </ul>
         </header>
-        <main class="selectedCall">
+        <main class="selectedCall gridItem">
+            <h1>Call Details</h1>
             <form>
                 <section class="callInfo">
-                    <input hidden type="test" placeholder="ID" name="callId" id="callId">
-                    <input type="date" placeholder="Date" name="date" id="date">
-                    <input type="time" placeholder="Time" name="time" id="time">
-                    <input type="text" placeholder="Location" name="location" id="location">
-                    <input type="text" placeholder="Type" name="type" id="type">
+                    <fieldset>
+                        <legend>Call Information</legend>
+                        <input type="text" placeholder="ID" name="callId" class="callInfoData" id="_id">
+                        <label for="date">Date:</label>
+                        <input type="date" placeholder="Date" name="date" class="callInfoData" id="date">
+                        <label for="time">Time:</label>
+                        <input type="time" placeholder="Time" name="time" class="callInfoData" id="time">
+                        <label for="location">Location:</label>
+                        <input type="text" placeholder="Location" name="location" class="callInfoData" id="location">
+                        <label for="type">Type:</label>
+                        <input type="text" placeholder="Type" name="type" class="callInfoData" id="type">
+                    </fieldset>
                 </section>
                 <section class="callNotes">
-                    <input type="text" placeholder="Notes" name="notes" id="notes">
+                    <fieldset>
+                        <legend>Notes</legend>
+                        <label for="notes">Notes:</label>
+                        <input type="text" placeholder="Notes" name="notes" class="callInfoData" id="notes">
+                    </fieldset>
                 </section>
                 <section class="responseDepartment">
-                    <input type="text" placeholder="Apparatus" name="apparatus" id="apparatus">
-                    <input type="time" placeholder="Tone" name="tone" id="tone">
-                    <input type="time" placeholder="En Route" name="enroute" id="enroute">
-                    <input type="time" placeholder="Arrival" name="arrival" id="arrival">
-                    <input type="time" placeholder="Departure" name="departure" id="departure">
-                    <input type="time" placeholder="Quarters" name="quarters" id="quarters">
+                    <fieldset>
+                        <legend>Department Response</legend>
+
+                        <table>
+                            <tr>
+                              <th>Apparatus</th>
+                              <th>Tone</th>
+                              <th>En Route</th>
+                              <th>Arrival</th>
+                              <th>Departure</th>
+                              <th>Quarters</th>
+                            </tr>
+                            <tr id="apparatusTable">
+                              <td><input type="text" placeholder="Apparatus" name="apparatus" class="callInfoData" id="apparatus"></td>
+                              <td><input type="time" placeholder="Tone" name="tone" class="callInfoData" id="tone"></td>
+                              <td><input type="time" placeholder="En Route" name="enroute" class="callInfoData" id="enroute"></td>
+                              <td><input type="time" placeholder="Arrival" name="arrival" class="callInfoData" id="arrival"></td>
+                              <td><input type="time" placeholder="Departure" name="departure" class="callInfoData" id="departure"></td>
+                              <td><input type="time" placeholder="Quarters" name="quarters" class="callInfoData" id="quarters"></td>
+                            </tr>
+                          </table>
+
+                        <!-- <label for="apparatus">Apparatus:</label>
+                        <input type="text" placeholder="Apparatus" name="apparatus" id="apparatus">
+                        <label for="tone">Tone:</label>
+                        <input type="time" placeholder="Tone" name="tone" id="tone">
+                        <label for="enroute">En Route:</label>
+                        <input type="time" placeholder="En Route" name="enroute" id="enroute">
+                        <label for="arrival">Arrival:</label>
+                        <input type="time" placeholder="Arrival" name="arrival" id="arrival">
+                        <label for="Departure">Departure:</label>
+                        <input type="time" placeholder="Departure" name="departure" id="departure">
+                        <label for="quarters">Quarters:</label>
+                        <input type="time" placeholder="Quarters" name="quarters" id="quarters"> -->
+
+                    </fieldset>
                 </section>
                 <section class="responseOther">
-                    <input type="text" placeholder="Contact" name="contact" id="contact">
-                    <input type="time" placeholder="Page" name="page" id="page">
-                    <input type="time" placeholder="Notify" name="notify" id="notify">
+                    <fieldset>
+                        <legend>Other Notifications</legend>
+                        <label for="contact">Contact:</label>
+                        <input type="text" placeholder="Contact" name="contact" class="callInfoData" id="contact">
+                        <label for="page">Page:</label>
+                        <input type="time" placeholder="Page" name="page" class="callInfoData" id="page">
+                        <label for="notify">Notify:</label>
+                        <input type="time" placeholder="Notify" name="notify" class="callInfoData" id="notify">
+                    </fieldset>
                 </section>
                 <section class="callerInfo">
-                    <input type="text" placeholder="First Name" name="first" id="first">
-                    <input type="text" placeholder="Last Name" name="last" id="last">
-                    <input type="text" placeholder="Phone Number" name="phone" id="phone">
+                    <fieldset>
+                        <legend>Caller Information</legend>
+                        <label for="first">First Name:</label>
+                        <input type="text" placeholder="First Name" name="first" class="callInfoData" id="first">
+                        <label for="last">Last Name:</label>
+                        <input type="text" placeholder="Last Name" name="last" class="callInfoData" id="last">
+                        <label for="phone">Phone Number:</label>
+                        <input type="text" placeholder="Phone Number" name="phone" class="callInfoData" id="phone">
+                    </fieldset>
                 </section>
-                <section>                    
-                    <button id="deleteCallButton">Delete Call</button>
-                    <button id="saveCallButton">Save Call</button>
+                <section>
+                    <fieldset>
+                        <button id="saveCallButton">Save Call</button>
+                        <button id="deleteCallButton">Delete Call</button>
+                    </fieldset>
                 </section>
             </form>
         </main>
