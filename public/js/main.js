@@ -88,65 +88,55 @@ saveCallButton.addEventListener('click', saveSelectedCall)
 
 async function saveSelectedCall() {
     try {
-        const callInfoDataObject = {}
-        const callInfoData = document.querySelectorAll('.callInfoData')
-        Array.from(callInfoData).forEach(elem => {
-            callInfoDataObject[elem.id] = elem.value
-        })
-        console.log(callInfoDataObject)
+        const _id = document.querySelector('#_id').value
+        const date = document.querySelector('#date').value
+        const time = document.querySelector('#time').value
+        const location = document.querySelector('#location').value
+        const type = document.querySelector('#type').value
 
-        // const id = document.querySelector('#callId').value
-        // const date = document.querySelector('#date').value
-        // const time = document.querySelector('#time').value
-        // const location = document.querySelector('#location').value
-        // const type = document.querySelector('#type').value
+        const first = document.querySelector('#first').value
+        const last = document.querySelector('#last').value
+        const phone = document.querySelector('#phone').value
 
-        // const first = document.querySelector('#first').value
-        // const last = document.querySelector('#last').value
-        // const phone = document.querySelector('#phone').value
+        const notes = document.querySelector('#notes').value
 
-        // const notes = document.querySelector('#notes').value
+        const apparatus = document.querySelector('#apparatus').value
+        const tone = document.querySelector('#tone').value
+        const enroute = document.querySelector('#enroute').value
+        const arrival = document.querySelector('#arrival').value
+        const departure = document.querySelector('#departure').value
+        const quarters = document.querySelector('#quarters').value
 
-        // const apparatus = document.querySelector('#apparatus').value
-        // const tone = document.querySelector('#tone').value
-        // const enroute = document.querySelector('#enroute').value
-        // const arrival = document.querySelector('#arrival').value
-        // const departure = document.querySelector('#departure').value
-        // const quarters = document.querySelector('#quarters').value
+        const contact = document.querySelector('#contact').value
+        const page = document.querySelector('#page').value
+        const notify = document.querySelector('#notify').value
 
-        // const contact = document.querySelector('#contact').value
-        // const page = document.querySelector('#page').value
-        // const notify = document.querySelector('#notify').value
-        
         const res = await fetch('saveSelectedCall', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-                callInfoDataObject
+              '_id': _id,
+              'date': date,
+              'time': time,
+              'location': location,
+              'type': type,
 
+              'first': first,
+              'last': last,
+              'phone': phone,
 
-            //   'id': id,
-            //   'date': date,
-            //   'time': time,
-            //   'location': location,
-            //   'type': type,
+              'notes': notes,
 
-            //   'first': first,
-            //   'last': last,
-            //   'phone': phone,
+              'apparatus': apparatus,
+              'tone': tone,
+              'enroute': enroute,
+              'arrival': arrival,
+              'departure': departure,
+              'quarters': quarters,
 
-            //   'notes': notes,
-
-            //   'apparatus': apparatus,
-            //   'tone': tone,
-            //   'enroute': enroute,
-            //   'arrival': arrival,
-            //   'departure': departure,
-            //   'quarters': quarters,
-
-            //   'contact': contact,
-            //   'page': page,
-            //   'notify': notify
+              'contact': contact,
+              'page': page,
+              'notify': notify
             })
           })
         const data = await res.json()

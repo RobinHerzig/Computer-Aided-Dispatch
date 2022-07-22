@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+const { ObjectId } = require('mongodb');
 const app = express()
 const MongoClient = require('mongodb').MongoClient
 const ObjectID = require('mongodb').ObjectID;
@@ -21,11 +22,13 @@ app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 
 // Load homepage
+
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/views/index.html')
 })
 
-// Load CAD 
+// Load CAD
+
 app.get('/cad',(req, res)=>{
     db.collection('calls').find().toArray()
     .then(data => {
@@ -35,6 +38,7 @@ app.get('/cad',(req, res)=>{
 })
 
 // Create new call
+
 app.post('/createCall', (req, res) => {
     db.collection('calls').insertOne({
         date: req.body.date,
@@ -67,6 +71,7 @@ app.post('/createCall', (req, res) => {
 })
 
 // Display selected call
+
 app.get('/displaySelectedCall', (req, res) => {
     db.collection('calls').find().toArray()
     .then(data => {
@@ -77,8 +82,9 @@ app.get('/displaySelectedCall', (req, res) => {
 })
 
 // Save selected call
+
 app.put('/saveSelectedCall', (req, res) => {
-    db.collection('calls').updateOne({ "_id": ObjectID(req.body.id)}, {$set: {
+    db.collection('calls').updateOne({ "_id": ObjectId(req.body._id)}, {$set: {
         date: req.body.date,
         time: req.body.time,
         location: req.body.location,
