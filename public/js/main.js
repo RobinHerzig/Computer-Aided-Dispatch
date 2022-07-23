@@ -6,7 +6,7 @@ Array.from(activeCalls).forEach(elem => elem.addEventListener('click', displaySe
 async function displaySelectedCall() {
     const id = this.value
     if (id) {
-        sessionStorage.setItem('id', id)
+        sessionStorage.setItem('id', id) // Sets new id to sessionStorage, so the call will be active on reload
     }
     const idSessionStorage = sessionStorage.getItem('id')
     try {
@@ -22,6 +22,12 @@ async function displaySelectedCall() {
                         elem.value = info[i][elem.id]
                         // if apparatusTable
                     }
+                    else if (elem.id === "id") {
+                        elem.value = info[i]._id // MongoDB's "_id" does not match elem's "id", so the id value must be set manually
+                    }
+                    else {
+                        elem.value = '' // Server.js does not assign properties in MongoDB when the call is created, 
+                    }
                 })
             }
         }
@@ -36,7 +42,7 @@ async function displaySelectedCall() {
 
 window.addEventListener('load', displaySelectedCall)
 
-// Automatically select newly created call
+// Create a new call
 
 const newCallButton = document.querySelector("#newCall")
 newCallButton.addEventListener('click', createCall)
@@ -48,10 +54,9 @@ async function createCall() {
             headers: {'Content-Type': 'application/json'},
           })
         const data = await res.json()
-        console.log(data)
         const id = data.insertedId
         if (id) {
-            sessionStorage.setItem('id', id)
+            sessionStorage.setItem('id', id) // Sets new id to sessionStorage, so the new call will be active on reload
         }
         window.location.reload();
     }
@@ -88,70 +93,17 @@ saveCallButton.addEventListener('click', saveSelectedCall)
 
 async function saveSelectedCall() {
     try {
-        // const callInfoDataObject = {}
-        // const callInfoData = document.querySelectorAll('.callInfoData')
-        // Array.from(callInfoData).forEach(elem => {
-        //     callInfoDataObject[elem.id] = elem.value
-        // })
-        // console.log(callInfoDataObject)
-
-        const id = document.querySelector('#id').value
-        const date = document.querySelector('#date').value
-        const time = document.querySelector('#time').value
-        const location = document.querySelector('#location').value
-        const type = document.querySelector('#type').value
-
-        const first = document.querySelector('#first').value
-        const last = document.querySelector('#last').value
-        const phone = document.querySelector('#phone').value
-
-        const notes = document.querySelector('#notes').value
-
-        const apparatus = document.querySelector('#apparatus').value
-        const tone = document.querySelector('#tone').value
-        const enroute = document.querySelector('#enroute').value
-        const arrival = document.querySelector('#arrival').value
-        const departure = document.querySelector('#departure').value
-        const quarters = document.querySelector('#quarters').value
-
-        const contact = document.querySelector('#contact').value
-        const page = document.querySelector('#page').value
-        const notify = document.querySelector('#notify').value
-
+        const callInfoDataObject = {}
+        const callInfoData = document.querySelectorAll('.callInfoData')
+        Array.from(callInfoData).forEach(elem => {
+            callInfoDataObject[elem.id] = elem.value // Creates object containing all properties and values within the active call form
+        })
         const res = await fetch('saveSelectedCall', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(
-                // callInfoDataObject
-
-                {
-                'id': id,
-                'date': date,
-                'time': time,
-                'location': location,
-                'type': type,
-
-                'first': first,
-                'last': last,
-                'phone': phone,
-
-                'notes': notes,
-
-                'apparatus': apparatus,
-                'tone': tone,
-                'enroute': enroute,
-                'arrival': arrival,
-                'departure': departure,
-                'quarters': quarters,
-
-                'contact': contact,
-                'page': page,
-                'notify': notify
-                }
-            )
+            body: JSON.stringify(callInfoDataObject)  
           })
         const data = await res.json()
-        window.location.reload();
     }
     catch(err) {
         console.log(err)
@@ -164,7 +116,7 @@ const deleteCallButton = document.querySelector('#deleteCallButton')
 deleteCallButton.addEventListener('click', deleteSelectedCall)
 
 async function deleteSelectedCall() {
-    const id = document.querySelector('#callId').value
+    const id = document.querySelector('#id').value
     try {
         const response = await fetch('deleteSelectedCall', {
             method: 'delete',
@@ -175,7 +127,6 @@ async function deleteSelectedCall() {
           })
         const data = await response.json()
         window.location.reload();
-
     }
     catch(err) {
         console.log(err)

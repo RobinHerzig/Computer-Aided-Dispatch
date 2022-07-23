@@ -40,29 +40,7 @@ app.get('/cad',(req, res)=>{
 // Create new call
 
 app.post('/createCall', (req, res) => {
-    db.collection('calls').insertOne({
-        date: req.body.date,
-        time: req.body.time,
-        location: req.body.location,
-        type: req.body.type,
-
-        first: req.body.first,
-        last: req.body.last,
-        phone: req.body.phone,
-
-        notes: req.body.notes,
-
-        apparatus: req.body.apparatus,
-        tone: req.body.tone,
-        enroute: req.body.enroute,
-        arrival: req.body.arrival,
-        departure: req.body.departure,
-        quarters: req.body.quarters,
-
-        contact: req.body.contact,
-        page: req.body.page,
-        notify: req.body.notify,
-    })
+    db.collection('calls').insertOne({})
     .then(data => {
         console.log('Created new call')
         res.json(data)
@@ -86,30 +64,9 @@ app.get('/displaySelectedCall', (req, res) => {
 app.put('/saveSelectedCall', (req, res) => {
     const callInfoDataObject = {}
     for (key in req.body) {
-        callInfoDataObject[key] = req.body[key]
+        callInfoDataObject[key] = req.body[key] // Iterate through the request body, create an object out of key/value pairs
     }
-    console.log(callInfoDataObject)
-    db.collection('calls').updateOne({ "_id": ObjectId(req.body.id)}, {$set: 
-        callInfoDataObject
-        // date: req.body.date,
-        // time: req.body.time,
-        // location: req.body.location,
-        // type: req.body.type,
-        // first: req.body.first,
-        // last: req.body.last,
-        // phone: req.body.phone,
-        // notes: req.body.notes,
-        // apparatus: req.body.apparatus,
-        // tone: req.body.tone,
-        // enroute: req.body.enroute,
-        // arrival: req.body.arrival,
-        // departure: req.body.departure,
-        // quarters: req.body.quarters,
-        // contact: req.body.contact,
-        // page: req.body.page,
-        // notify: req.body.notify,
-    })
-    // .then(console.log(req))
+    db.collection('calls').updateOne({ "_id": ObjectId(req.body.id)}, {$set: callInfoDataObject})
     .then(data => {
         console.log('Saved selected call')
         res.json('Saved selected call')
@@ -120,7 +77,7 @@ app.put('/saveSelectedCall', (req, res) => {
 // Delete selected call
 
 app.delete('/deleteSelectedCall', (req, res) => {
-    db.collection('calls').deleteOne({ "_id": ObjectID(req.body.id)})
+    db.collection('calls').deleteOne({ "_id": ObjectId(req.body.id)})
     .then(result => {
         console.log('Deleted selected call')
         res.json('Deleted selected call')
