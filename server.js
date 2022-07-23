@@ -34,7 +34,7 @@ app.get('/cad',(req, res)=>{
     .then(data => {
         res.render('cad.ejs', { info: data })
     })
-    .catch(err => console.err(err))
+    .catch(err => console.log(err))
 })
 
 // Create new call
@@ -67,7 +67,7 @@ app.post('/createCall', (req, res) => {
         console.log('Created new call')
         res.json(data)
     })
-    .catch(err => console.err(err))
+    .catch(err => console.log(err))
 })
 
 // Display selected call
@@ -78,41 +78,45 @@ app.get('/displaySelectedCall', (req, res) => {
         console.log('Displayed selected call')
         res.json(data)
     })
-    .catch(err => console.err(err))
+    .catch(err => console.log(err))
 })
 
 // Save selected call
 
 app.put('/saveSelectedCall', (req, res) => {
-    db.collection('calls').updateOne({ "_id": ObjectId(req.body._id)}, {$set: {
+    // const callInfoDataObject = {}
+    // for (key in req.body) {
+    //     callInfoDataObject[key] = req.body[key]
+    // }
+    // console.log(callInfoDataObject)
+    db.collection('calls').updateOne({ "_id": ObjectId(req.body.id)}, {$set: {
+        // callInfoDataObject
         date: req.body.date,
         time: req.body.time,
         location: req.body.location,
         type: req.body.type,
-
         first: req.body.first,
         last: req.body.last,
         phone: req.body.phone,
-
         notes: req.body.notes,
-
         apparatus: req.body.apparatus,
         tone: req.body.tone,
         enroute: req.body.enroute,
         arrival: req.body.arrival,
         departure: req.body.departure,
         quarters: req.body.quarters,
-
         contact: req.body.contact,
         page: req.body.page,
         notify: req.body.notify,
-        }
+    
+    }
     })
+    // .then(console.log(req))
     .then(data => {
         console.log('Saved selected call')
         res.json('Saved selected call')
     })
-    .catch(err => console.err(err))
+    .catch(err => console.log(err))
 })
 
 // Delete selected call
@@ -123,7 +127,7 @@ app.delete('/deleteSelectedCall', (req, res) => {
         console.log('Deleted selected call')
         res.json('Deleted selected call')
     })
-    .catch(err => console.err(err))
+    .catch(err => console.log(err))
 })
 
 // Port

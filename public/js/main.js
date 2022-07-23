@@ -88,6 +88,13 @@ saveCallButton.addEventListener('click', saveSelectedCall)
 
 async function saveSelectedCall() {
     try {
+        // const callInfoDataObject = {}
+        // const callInfoData = document.querySelectorAll('.callInfoData')
+        // Array.from(callInfoData).forEach(elem => {
+        //     callInfoDataObject[elem.id] = elem.value
+        // })
+        // console.log(callInfoDataObject)
+
         const _id = document.querySelector('#_id').value
         const date = document.querySelector('#date').value
         const time = document.querySelector('#time').value
@@ -115,32 +122,33 @@ async function saveSelectedCall() {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
-              '_id': _id,
-              'date': date,
-              'time': time,
-              'location': location,
-              'type': type,
+                // callInfoDataObject
+                'id': _id,
+                'date': date,
+                'time': time,
+                'location': location,
+                'type': type,
 
-              'first': first,
-              'last': last,
-              'phone': phone,
+                'first': first,
+                'last': last,
+                'phone': phone,
 
-              'notes': notes,
+                'notes': notes,
 
-              'apparatus': apparatus,
-              'tone': tone,
-              'enroute': enroute,
-              'arrival': arrival,
-              'departure': departure,
-              'quarters': quarters,
+                'apparatus': apparatus,
+                'tone': tone,
+                'enroute': enroute,
+                'arrival': arrival,
+                'departure': departure,
+                'quarters': quarters,
 
-              'contact': contact,
-              'page': page,
-              'notify': notify
+                'contact': contact,
+                'page': page,
+                'notify': notify
             })
           })
         const data = await res.json()
-        // window.location.reload();
+        window.location.reload();
     }
     catch(err) {
         console.log(err)
