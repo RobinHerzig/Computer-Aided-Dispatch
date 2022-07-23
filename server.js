@@ -1,8 +1,9 @@
-const express = require('express');
-const { ObjectId } = require('mongodb');
+const express = require('express')
+const { ObjectId } = require('mongodb')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
-const ObjectID = require('mongodb').ObjectID;
+// const ObjectID = require('mongodb').ObjectID
+dateTime = require('node-datetime')
 const PORT = 8000
 require('dotenv').config()
 
@@ -40,7 +41,14 @@ app.get('/cad',(req, res)=>{
 // Create new call
 
 app.post('/createCall', (req, res) => {
-    db.collection('calls').insertOne({})
+    const dt = dateTime.create()
+    const date = dt.format('Y-m-d')
+    const time = dt.format('H:M:S')
+
+    db.collection('calls').insertOne({
+        date: date,
+        time: time,
+    })
     .then(data => {
         console.log('Created new call')
         res.json(data)
