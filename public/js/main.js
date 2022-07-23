@@ -95,7 +95,7 @@ async function saveSelectedCall() {
         // })
         // console.log(callInfoDataObject)
 
-        const _id = document.querySelector('#_id').value
+        const id = document.querySelector('#id').value
         const date = document.querySelector('#date').value
         const time = document.querySelector('#time').value
         const location = document.querySelector('#location').value
@@ -121,9 +121,11 @@ async function saveSelectedCall() {
         const res = await fetch('saveSelectedCall', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({
+            body: JSON.stringify(
                 // callInfoDataObject
-                'id': _id,
+
+                {
+                'id': id,
                 'date': date,
                 'time': time,
                 'location': location,
@@ -145,7 +147,8 @@ async function saveSelectedCall() {
                 'contact': contact,
                 'page': page,
                 'notify': notify
-            })
+                }
+            )
           })
         const data = await res.json()
         window.location.reload();
