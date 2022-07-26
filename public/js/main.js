@@ -67,24 +67,24 @@ const highlightSelectedCall = async function(info) {
 // Add additional apparatus rows, if necessary
 
 const addApparatusRow = async function(info) {
-    const idSessionStorage = sessionStorage.getItem('id')
-    const apparatusRow = document.querySelector('.apparatusRow')
-    const apparatus = document.querySelectorAll('.apparatus')
-    const apparatusArray = Array.from(apparatus)
-
-    console.log(apparatusRow)
-
+    const apparatusRow = document.querySelectorAll('.apparatusRow')
+    const apparatusRowArray = Array.from(apparatusRow)
     try {
-        for (let i = 0; i < info.length; i++) {
-            if (info[i]._id == idSessionStorage) {
-                const node = apparatusRow
-                const clone = node.cloneNode(true)
-                let j = 0
-                do {
-                    node.after(clone)
-                    j++
-                } while (info[i].apparatus[j])
+        const incrementID = function(id) {
+            console.log(id)
+            id = id.split('')
+            id = id.map(elem => Number(elem) ? Number(elem) + 1 : elem)
+            return id = id.join('')
+        }
+
+        if (apparatusRowArray[0].childNodes[1].childNodes[0].value) {
+            const node = apparatusRowArray[0]
+            const clone = node.cloneNode(true)
+            for (let i = 1; i < clone.childNodes.length; i += 2) {
+                let id = clone.childNodes[i].childNodes[0].id
+                clone.childNodes[i].childNodes[0].id = incrementID(id)
             }
+            node.before(clone)
         }
     }
     catch(err) {
