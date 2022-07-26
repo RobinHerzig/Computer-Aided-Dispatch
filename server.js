@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 app.get('/cad',(req, res)=>{
     db.collection('calls').find().toArray()
     .then(data => {
+        console.log(data)
         res.render('cad.ejs', { info: data })
     })
     .catch(err => console.log(err))

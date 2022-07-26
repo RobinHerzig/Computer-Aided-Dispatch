@@ -41,6 +41,7 @@
         <header class="callList gridItem">
             <h2>Call List</h2>
             <ul>
+                <% // Populate call list %>
                 <% for (let i = 0; i < info.length; i++) { %>
                     <li>
                         <button value="<%= info[i]._id %>" class="activeCall">
@@ -106,28 +107,18 @@
                               <th>Departure</th>
                               <th>Quarters</th>
                             </tr>
-                            <tr id="apparatusTable">
-                              <td><input type="text" placeholder="Apparatus" name="apparatus" class="callInfoData" id="apparatus"></td>
-                              <td><input type="time" placeholder="Tone" name="tone" class="callInfoData" id="tone"></td>
-                              <td><input type="time" placeholder="En Route" name="enroute" class="callInfoData" id="enroute"></td>
-                              <td><input type="time" placeholder="Arrival" name="arrival" class="callInfoData" id="arrival"></td>
-                              <td><input type="time" placeholder="Departure" name="departure" class="callInfoData" id="departure"></td>
-                              <td><input type="time" placeholder="Quarters" name="quarters" class="callInfoData" id="quarters"></td>
+
+
+
+                            <tr class="apparatusRow">
+                              <td><input type="text" placeholder="Apparatus" name="apparatus" class="callInfoData apparatus" id="apparatus1"></td>
+                              <td><input type="text" placeholder="Tone" name="tone" class="callInfoData" id="tone1" disabled></td>
+                              <td><input type="text" placeholder="En Route" name="enroute" class="callInfoData" id="enroute1" disabled></td>
+                              <td><input type="text" placeholder="Arrival" name="arrival" class="callInfoData" id="arrival1" disabled></td>
+                              <td><input type="text" placeholder="Departure" name="departure" class="callInfoData" id="departure1" disabled></td>
+                              <td><input type="text" placeholder="Quarters" name="quarters" class="callInfoData" id="quarters1" disabled></td>
                             </tr>
                           </table>
-
-                        <!-- <label for="apparatus">Apparatus:</label>
-                        <input type="text" placeholder="Apparatus" name="apparatus" id="apparatus">
-                        <label for="tone">Tone:</label>
-                        <input type="time" placeholder="Tone" name="tone" id="tone">
-                        <label for="enroute">En Route:</label>
-                        <input type="time" placeholder="En Route" name="enroute" id="enroute">
-                        <label for="arrival">Arrival:</label>
-                        <input type="time" placeholder="Arrival" name="arrival" id="arrival">
-                        <label for="Departure">Departure:</label>
-                        <input type="time" placeholder="Departure" name="departure" id="departure">
-                        <label for="quarters">Quarters:</label>
-                        <input type="time" placeholder="Quarters" name="quarters" id="quarters"> -->
 
                     </fieldset>
                 </section>

@@ -1,3 +1,7 @@
+// Select call after page load
+
+window.addEventListener('load', displaySelectedCall)
+
 // Display selected call from active call list
 
 const activeCalls = document.querySelectorAll('.activeCall')
@@ -14,13 +18,14 @@ async function displaySelectedCall() {
             method: 'get',
         })
         const info = await res.json()
+        highlightSelectedCall(info) // Highlight selected call in call list
+        addApparatusRow(info) // Add additional apparatus rows, if necessary
         for (let i = 0; i < info.length; i++) {
             if (info[i]._id == idSessionStorage) {
                 const callInfoData = document.querySelectorAll('.callInfoData')
                 Array.from(callInfoData).forEach(elem => {
                     if (info[i].hasOwnProperty(elem.id)) {
                         elem.value = info[i][elem.id]
-                        // if apparatusTable
                     }
                     else if (elem.id === "id") {
                         elem.value = info[i]._id // MongoDB's "_id" does not match elem's "id", so the id value must be set manually
@@ -31,16 +36,61 @@ async function displaySelectedCall() {
                 })
             }
         }
-        highlightSelectedCall(info)
+        
     }
     catch(err) {
         console.log(err)
     }
 }
 
-// Automatically select call after page load
+// Highlight selected call in call list
 
-window.addEventListener('load', displaySelectedCall)
+const highlightSelectedCall = async function(info) {
+    const idSessionStorage = sessionStorage.getItem('id')
+    const activeCallArray = Array.from(activeCalls)
+
+    try {
+        for (let i = 0; i < info.length; i++) {
+            if (info[i]._id == idSessionStorage) {
+                activeCallArray[i].style.background = 'grey'
+            }
+            else {
+                activeCallArray[i].style.background = 'transparent'
+            }
+        }
+    }
+    catch(err) {
+        console.log(err)
+    }
+}
+
+// Add additional apparatus rows, if necessary
+
+const addApparatusRow = async function(info) {
+    const idSessionStorage = sessionStorage.getItem('id')
+    const apparatusRow = document.querySelector('.apparatusRow')
+    const apparatus = document.querySelectorAll('.apparatus')
+    const apparatusArray = Array.from(apparatus)
+
+    console.log(apparatusRow)
+
+    try {
+        for (let i = 0; i < info.length; i++) {
+            if (info[i]._id == idSessionStorage) {
+                const node = apparatusRow
+                const clone = node.cloneNode(true)
+                let j = 0
+                do {
+                    node.after(clone)
+                    j++
+                } while (info[i].apparatus[j])
+            }
+        }
+    }
+    catch(err) {
+        console.log(err)
+    }
+}
 
 // Create a new call
 
@@ -59,27 +109,6 @@ async function createCall() {
             sessionStorage.setItem('id', id) // Sets new id to sessionStorage, so the new call will be active on reload
         }
         window.location.reload();
-    }
-    catch(err) {
-        console.log(err)
-    }
-}
-
-// Automatically highlight selected call in call list
-
-const highlightSelectedCall = async function(info) {
-    const idSessionStorage = sessionStorage.getItem('id')
-    const activeCallArray = Array.from(activeCalls)
-
-    try {
-        for (let i = 0; i < info.length; i++) {
-            if (info[i]._id == idSessionStorage) {
-                activeCallArray[i].style.background = 'grey'
-            }
-            else {
-                activeCallArray[i].style.background = 'transparent'
-            }
-        }
     }
     catch(err) {
         console.log(err)
