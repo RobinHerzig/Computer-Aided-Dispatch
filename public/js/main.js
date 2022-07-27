@@ -19,9 +19,9 @@ async function displaySelectedCall() {
         })
         const info = await res.json()
         highlightSelectedCall(info) // Highlight selected call in call list
-        addApparatusRow(info) // Add additional apparatus rows, if necessary
         for (let i = 0; i < info.length; i++) {
             if (info[i]._id == idSessionStorage) {
+                addApparatusRow(info[i]) // Add additional apparatus rows, if necessary 
                 const callInfoData = document.querySelectorAll('.callInfoData')
                 Array.from(callInfoData).forEach(elem => {
                     if (info[i].hasOwnProperty(elem.id)) {
@@ -35,8 +35,7 @@ async function displaySelectedCall() {
                     }
                 })
             }
-        }
-        
+        }    
     }
     catch(err) {
         console.log(err)
@@ -69,23 +68,43 @@ const highlightSelectedCall = async function(info) {
 const addApparatusRow = async function(info) {
     const apparatusRow = document.querySelectorAll('.apparatusRow')
     const apparatusRowArray = Array.from(apparatusRow)
-    try {
-        const incrementID = function(id) {
-            console.log(id)
-            id = id.split('')
-            id = id.map(elem => Number(elem) ? Number(elem) + 1 : elem)
-            return id = id.join('')
-        }
 
-        if (apparatusRowArray[0].childNodes[1].childNodes[0].value) {
-            const node = apparatusRowArray[0]
-            const clone = node.cloneNode(true)
-            for (let i = 1; i < clone.childNodes.length; i += 2) {
-                let id = clone.childNodes[i].childNodes[0].id
-                clone.childNodes[i].childNodes[0].id = incrementID(id)
-            }
-            node.before(clone)
+    let rowCount = 1
+    for (let i = 1; i < 10; i++) {
+        if (info.hasOwnProperty(['apparatus' + i])) {
+            rowCount += 1
         }
+    }
+
+    if (apparatusRowArray.length >= rowCount) return
+    const incrementID = function(id) {
+        id = id.split('')
+        id = id.map(elem => Number(elem) ? Number(elem) + 1 : elem)
+        return id = id.join('')
+    }
+    try {
+       
+                const node = apparatusRowArray[0]
+                const clone = node.cloneNode(true)
+                for (let i = 1; i < clone.childNodes.length; i += 2) { // Loop through childNodes to update element ids
+                    let id = clone.childNodes[i].childNodes[0].id
+                    clone.childNodes[i].childNodes[0].id = incrementID(id)
+                }
+                node.before(clone) 
+                           
+            
+
+
+        // if (apparatusRowArray[0].childNodes[1].childNodes[0].value) { // DOESNT WORK BEFORE VALUES ARE ADDED
+        //     const node = apparatusRowArray[0]
+        //     const clone = node.cloneNode(true)
+        //     for (let i = 1; i < clone.childNodes.length; i += 2) { // Loop through childNodes to update element ids
+        //         let id = clone.childNodes[i].childNodes[0].id
+        //         clone.childNodes[i].childNodes[0].id = incrementID(id)
+        //     }
+        //     node.before(clone)
+
+
     }
     catch(err) {
         console.log(err)
