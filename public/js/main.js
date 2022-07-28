@@ -65,93 +65,44 @@ const highlightSelectedCall = async function(info) {
 
 // Add additional apparatus rows, if necessary
 
-// Remove all rows except the first. Reset IDs to start at 1.
-// Calculate how many rows to complete.
-    // Cannot check values directly, because they haven't been added to the form
-    // Iterate through the JSON and count the apparatus IDs
-// Create the rows.
-// return to display function to fill values.
-
-
-
 const addApparatusRow = async function(info) {
     let apparatusRow = document.querySelectorAll('.apparatusRow')
-    let apparatusRowArray = Array.from(apparatusRow)
-    const idLoop = function(clone) {
-        for (let i = 1; i < clone.childNodes.length; i += 2) { // Loop through childNodes to update element ids
+    let apparatusRowArray = Array.from(apparatusRow) // Calculate how many rows already exist in the DOM
+    const loopID = function(clone) {  // Loop through childNodes to run function on correct element ids
+        for (let i = 1; i < clone.childNodes.length; i += 2) {
             let id = clone.childNodes[i].childNodes[0].id
             clone.childNodes[i].childNodes[0].id = incrementId(id)
         }
     }
-    const incrementId = function(id) {
-        id = id.split('')
-        id = id.map(elem => Number(elem) ? Number(elem) + 1 : elem)
-        return id = id.join('')
+    const incrementId = function(id) { // Increment id numbers
+        id = [...id]
+        let idNumbers = id.filter(elem => (Number(elem) >= 0 || Number(elem) <= 9)) // Isolating numbers from id to increment properly
+        idNumbers = idNumbers.join('')
+        idNumbers = Number(idNumbers)
+        idNumbers += 1
+        const idLetters = id.filter(elem => !(Number(elem) >= 0 || Number(elem) <= 9)) // Isolating letters from id to rejoin as string
+        return id = idLetters.concat(idNumbers).join('')
     }
     let apparatusCount = 0
-    while (info.hasOwnProperty(['apparatus' + (apparatusCount + 1)])) {
+    while (info.hasOwnProperty(['apparatus' + (apparatusCount + 1)])) { // Calculate how many rows will be needed
         apparatusCount += 1
     }
 
-    // console.log(info)
-    console.log('Apparatus Count: ' + apparatusCount)
-    console.log('Apparatus Array Count: ' + apparatusRowArray.length)
-    console.log(apparatusRowArray)
-
     try {
-        // apparatusRowArray.forEach((elem, index) => { // If there are too many rows, remove all except the first and readd as needed
-        //     if (index > 0) {
-        //         elem.remove()
-        //         apparatusRowArray.splice(index, 1)
-        //         console.log('Removing element')
-        //         console.log('Count: (after removal)' + apparatusCount)
-        //         console.log('Apparatus Array: (after removal)' + apparatusRowArray.length)
-        //     }
-        // })
-        
         if (apparatusRowArray.length === apparatusCount + 1) { // If there is already the correct number of rows, return without making changes
-            console.log('There is already the correct number of elements')
             return
         }
         else if (apparatusRowArray.length > apparatusCount) { // If there are too many rows, remove all except the first
-            console.log('There are too many elements')
-            let rowCount = 2
             apparatusRowArray.reverse().forEach((elem, index) => {
                 if (index > 0) {
                     elem.remove()
                 }
             })
-            console.log('Removing elements with for loop -- FINISHED')
         }
-
-        // else if (apparatusRowArray.length > apparatusCount) { // If there are too many rows, remove all except the first
-        //     console.log('Theres too many elements')
-        //     let rowCount = 2
-        //     while (document.querySelector('#apparatus' + rowCount)) {
-        //         rowCount += 1
-        //         document.querySelector('#apparatus' + rowCount).parentElement.parentElement.remove()
-        //         console.log('Removing elements with for loop')
-        //     }
-        // console.log('Removing elements with for loop -- FINISHED')
-
-        // else if (apparatusRowArray.length > apparatusCount) { 
-        //     console.log(apparatusRowArray)
-        //     apparatusRowArray.forEach((elem, index) => {
-        //         if (index > 0) {
-        //             elem.remove()
-        //             apparatusRowArray.splice(index, 1)
-        //             console.log('Removing element')
-        //             console.log('Count: (after removal)' + apparatusCount)
-        //             console.log('Apparatus Array: (after removal)' + apparatusRowArray.length)
-        //         }
-        //     })
-        // }
-        
-        console.log('Adding elements')
         for (let i = 1; i < apparatusCount + 1; i++) { // Clone nodes and place them in DOM
             const node = apparatusRowArray.at(-1)
             const clone = node.cloneNode(true)
-            idLoop(clone)
+            loopID(clone)
             node.before(clone)
             apparatusRow = document.querySelectorAll('.apparatusRow')
             apparatusRowArray = Array.from(apparatusRow).reverse()
