@@ -66,45 +66,39 @@ const highlightSelectedCall = async function(info) {
 // Add additional apparatus rows, if necessary
 
 const addApparatusRow = async function(info) {
-    const apparatusRow = document.querySelectorAll('.apparatusRow')
-    const apparatusRowArray = Array.from(apparatusRow)
-
-    let rowCount = 1
-    for (let i = 1; i < 10; i++) {
-        if (info.hasOwnProperty(['apparatus' + i])) {
-            rowCount += 1
-        }
-    }
-
-    if (apparatusRowArray.length >= rowCount) return
+    let apparatusRow = document.querySelectorAll('.apparatusRow')
+    let apparatusRowArray = Array.from(apparatusRow)
     const incrementID = function(id) {
         id = id.split('')
         id = id.map(elem => Number(elem) ? Number(elem) + 1 : elem)
         return id = id.join('')
     }
+    let rowCount = 0
+    while (info.hasOwnProperty(['apparatus' + (rowCount + 1)])) {
+        rowCount += 1
+    }
+
+    console.log(info)
+    console.log('Count:' + rowCount)
+    console.log('Apparatus Array:' + apparatusRowArray.length)
+
+    if (apparatusRowArray.length > rowCount) {
+        console.log('Too many rows to add more')
+        return
+    }
     try {
-       
-                const node = apparatusRowArray[0]
-                const clone = node.cloneNode(true)
-                for (let i = 1; i < clone.childNodes.length; i += 2) { // Loop through childNodes to update element ids
-                    let id = clone.childNodes[i].childNodes[0].id
-                    clone.childNodes[i].childNodes[0].id = incrementID(id)
-                }
-                node.before(clone) 
-                           
-            
-
-
-        // if (apparatusRowArray[0].childNodes[1].childNodes[0].value) { // DOESNT WORK BEFORE VALUES ARE ADDED
-        //     const node = apparatusRowArray[0]
-        //     const clone = node.cloneNode(true)
-        //     for (let i = 1; i < clone.childNodes.length; i += 2) { // Loop through childNodes to update element ids
-        //         let id = clone.childNodes[i].childNodes[0].id
-        //         clone.childNodes[i].childNodes[0].id = incrementID(id)
-        //     }
-        //     node.before(clone)
-
-
+        for (let i = 1; i < rowCount + 1; i++) {
+            const node = apparatusRowArray.at(-1)
+            const clone = node.cloneNode(true)
+            for (let i = 1; i < clone.childNodes.length; i += 2) { // Loop through childNodes to update element ids
+                let id = clone.childNodes[i].childNodes[0].id
+                clone.childNodes[i].childNodes[0].id = incrementID(id)
+            }
+            node.before(clone)
+            apparatusRow = document.querySelectorAll('.apparatusRow')
+            apparatusRowArray = Array.from(apparatusRow).reverse()
+            console.log(apparatusRowArray)
+        }
     }
     catch(err) {
         console.log(err)
