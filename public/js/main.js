@@ -66,8 +66,6 @@ const highlightSelectedCall = async function(info) {
 // Add additional apparatus rows, if necessary
 
 const addApparatusRow = async function(info) {
-    let apparatusRow = document.querySelectorAll('.apparatusRow')
-    let apparatusRowArray = Array.from(apparatusRow) // Calculate how many rows already exist in the DOM
     const loopID = function(clone) {  // Loop through childNodes to run function on correct element ids
         for (let i = 1; i < clone.childNodes.length; i += 2) {
             let id = clone.childNodes[i].childNodes[0].id
@@ -83,22 +81,34 @@ const addApparatusRow = async function(info) {
         const idLetters = id.filter(elem => !(Number(elem) >= 0 || Number(elem) <= 9)) // Isolating letters from id to rejoin as string
         return id = idLetters.concat(idNumbers).join('')
     }
+    let apparatusRow = document.querySelectorAll('.apparatusRow')
+    let apparatusRowArray = Array.from(apparatusRow) // Calculate how many rows already exist in the DOM
     let apparatusCount = 0
     while (info.hasOwnProperty(['apparatus' + (apparatusCount + 1)])) { // Calculate how many rows will be needed
         apparatusCount += 1
     }
 
     try {
-        if (apparatusRowArray.length === apparatusCount + 1) { // If there is already the correct number of rows, return without making changes
+        if (apparatusRowArray.length === apparatusCount + 1) { // If there are already the correct number of rows, return without making changes
             return
         }
-        else if (apparatusRowArray.length > apparatusCount) { // If there are too many rows, remove all except the first
-            apparatusRowArray.reverse().forEach((elem, index) => {
-                if (index > 0) {
-                    elem.remove()
-                }
-            })
-        }
+
+        // console.log('apparatusRowArray (before removal) ' + apparatusRowArray.length)
+
+        apparatusRowArray.reverse().forEach((elem, index) => {
+            if (index > 0) {
+                elem.remove()
+                // apparatusRowArray.pop()
+            }
+        })
+
+        apparatusRow = document.querySelectorAll('.apparatusRow')
+        apparatusRowArray = Array.from(apparatusRow) // Refresh calculate of how many rows exist in the DOM
+
+
+        // console.log('apparatusRowArray (after removal) ' + apparatusRowArray.length)
+        // console.log('apparatusCount ' + apparatusCount)
+
         for (let i = 1; i < apparatusCount + 1; i++) { // Clone nodes and place them in DOM
             const node = apparatusRowArray.at(-1)
             const clone = node.cloneNode(true)
@@ -106,7 +116,11 @@ const addApparatusRow = async function(info) {
             node.before(clone)
             apparatusRow = document.querySelectorAll('.apparatusRow')
             apparatusRowArray = Array.from(apparatusRow).reverse()
+            // console.log('Added ' + i + ' rows')
         }
+
+        // console.log('apparatusRowArray (after addition) ' + apparatusRowArray.length)
+        
     }
     catch(err) {
         console.log(err)
