@@ -35,7 +35,8 @@ async function displaySelectedCall() {
                     }
                 })
             }
-        }    
+        }
+        addEventListeners() // Add event listeners to each cell to create time buttons    
     }
     catch(err) {
         console.log(err)
@@ -85,7 +86,7 @@ const addApparatusRow = async function(info) {
     let apparatusRow = document.querySelectorAll('.apparatusRow')
     let apparatusRowArray = Array.from(apparatusRow) // Calculate how many rows already exist in the DOM
     let apparatusCount = 0
-    while (info.hasOwnProperty(['apparatus' + (apparatusCount + 1)])) { // Calculate how many rows will be needed
+    while (info['apparatus' + (apparatusCount + 1)]) { // Calculate how many rows will be needed by counting non-empty aparatus values
         apparatusCount += 1
     }
 
@@ -112,6 +113,58 @@ const addApparatusRow = async function(info) {
     catch(err) {
         console.log(err)
     }
+}
+
+// Input time in apparatus cells
+
+// For each cell:
+// Default state is disabled.
+// Check if there is data in apparatus.
+    // If so, enable all cells.
+    // For all cells, if clicked, add a value of "current time".
+        // Disable cells to the left.
+
+
+
+const addEventListeners = function() {
+    const inputTime = function() {
+        console.log('testValue')
+        this.value = 'TestValue'
+        this.setAttribute('disabled', '')
+    }
+    
+    const removeDisabled = function(elem) {
+        if (elem.value) {
+            console.log('removing disabled attribute')
+            console.log(elem)
+            console.log(elem.parentNode.parentNode.childNodes[5].childNodes[0].id)
+            elem.parentNode.parentNode.childNodes[3].childNodes[0].removeAttribute('disabled')
+            elem.parentNode.parentNode.childNodes[5].childNodes[0].removeAttribute('disabled')
+            elem.parentNode.parentNode.childNodes[7].childNodes[0].removeAttribute('disabled')
+            elem.parentNode.parentNode.childNodes[9].childNodes[0].removeAttribute('disabled')
+            elem.parentNode.parentNode.childNodes[11].childNodes[0].removeAttribute('disabled')
+            // const allButtons = elem.parentNode.parentNode.childNodes
+            // allButtons.removeAttribute('disabled')
+        }
+    }
+
+    const toneButtons = document.querySelectorAll('.tone')
+    Array.from(toneButtons).forEach(elem => elem.addEventListener('click', inputTime))
+
+    const enrouteButtons = document.querySelectorAll('.enroute')
+    Array.from(enrouteButtons).forEach(elem => elem.addEventListener('click', inputTime))
+
+    const arrivalButtons = document.querySelectorAll('.arrival')
+    Array.from(arrivalButtons).forEach(elem => elem.addEventListener('click', inputTime))
+
+    const departureButtons = document.querySelectorAll('.departure')
+    Array.from(departureButtons).forEach(elem => elem.addEventListener('click', inputTime))
+
+    const quartersButtons = document.querySelectorAll('.quarters')
+    Array.from(quartersButtons).forEach(elem => elem.addEventListener('click', inputTime))
+
+    const apparatusButtons = document.querySelectorAll('.apparatus')
+    Array.from(apparatusButtons).forEach(elem => removeDisabled(elem))
 }
 
 // Create a new call
