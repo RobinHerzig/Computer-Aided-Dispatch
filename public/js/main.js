@@ -36,7 +36,7 @@ async function displaySelectedCall() {
                 })
             }
         }
-        addEventListeners() // Add event listeners to each cell to create time buttons    
+        trackApparatusTimes() // Add event listeners to each cell to create time buttons    
     }
     catch(err) {
         console.log(err)
@@ -117,55 +117,31 @@ const addApparatusRow = async function(info) {
 
 // Input time in apparatus cells
 
-// For each cell:
-// Default state is disabled.
-// Check if there is data in apparatus.
-    // If so, enable all cells.
-    // For all cells, if clicked, add a value of "current time".
-        // Disable cells to the left.
+// Put all rows in an array.
+// if rowArray[i][0] === '' then keep everything else disabled.
+// else if rowArray[i][0] !== '' then disable [0] but remove disable from all others. Add an eventlistener that, when a cell is clicked, will update its value with the current time.
+// if rowArray[i][any] !== '' then disable that cell and all cells to the left of it.
+// when new call is displayed, reset function
 
-
-
-const addEventListeners = function() {
-    const inputTime = function() {
-        console.log('testValue')
-        this.value = 'TestValue'
-        this.setAttribute('disabled', '')
-    }
-    
-    const removeDisabled = function(elem) {
-        if (elem.value) {
-            console.log('removing disabled attribute')
-            console.log(elem)
-            console.log(elem.parentNode.parentNode.childNodes[5].childNodes[0].id)
-            elem.parentNode.parentNode.childNodes[3].childNodes[0].removeAttribute('disabled')
-            elem.parentNode.parentNode.childNodes[5].childNodes[0].removeAttribute('disabled')
-            elem.parentNode.parentNode.childNodes[7].childNodes[0].removeAttribute('disabled')
-            elem.parentNode.parentNode.childNodes[9].childNodes[0].removeAttribute('disabled')
-            elem.parentNode.parentNode.childNodes[11].childNodes[0].removeAttribute('disabled')
-            // const allButtons = elem.parentNode.parentNode.childNodes
-            // allButtons.removeAttribute('disabled')
+const trackApparatusTimes = function() {
+    const checkEmptyCells = function(elem) {
+        if (elem.childNodes[1].childNodes[0].value) {
+            elem.childNodes[1].childNodes[0].setAttribute('disabled', '') // If there is an apparatus saved, disable the apparatus cell
+            let cellCount = 3
+            while (elem.childNodes[cellCount]?.childNodes[0]) {
+                elem.childNodes[cellCount].childNodes[0].removeAttribute('disabled')  // If there is an apparatus saved, enable all other cells in that row
+                cellCount += 2
+            }
+        }
+        else {
+            console.log('this one is empty')
         }
     }
-
-    const toneButtons = document.querySelectorAll('.tone')
-    Array.from(toneButtons).forEach(elem => elem.addEventListener('click', inputTime))
-
-    const enrouteButtons = document.querySelectorAll('.enroute')
-    Array.from(enrouteButtons).forEach(elem => elem.addEventListener('click', inputTime))
-
-    const arrivalButtons = document.querySelectorAll('.arrival')
-    Array.from(arrivalButtons).forEach(elem => elem.addEventListener('click', inputTime))
-
-    const departureButtons = document.querySelectorAll('.departure')
-    Array.from(departureButtons).forEach(elem => elem.addEventListener('click', inputTime))
-
-    const quartersButtons = document.querySelectorAll('.quarters')
-    Array.from(quartersButtons).forEach(elem => elem.addEventListener('click', inputTime))
-
-    const apparatusButtons = document.querySelectorAll('.apparatus')
-    Array.from(apparatusButtons).forEach(elem => removeDisabled(elem))
+    const apparatusRow = document.querySelectorAll('.apparatusRow')
+    const apparatusRowArray = Array.from(apparatusRow).forEach(elem => checkEmptyCells(elem))
 }
+
+// elem.parentNode.parentNode.childNodes[11].childNodes[0].removeAttribute('disabled')
 
 // Create a new call
 
