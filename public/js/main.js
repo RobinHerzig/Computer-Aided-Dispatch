@@ -25,18 +25,18 @@ async function displaySelectedCall() {
                 const callInfoData = document.querySelectorAll('.callInfoData')
                 Array.from(callInfoData).forEach(elem => {
                     if (info[i].hasOwnProperty(elem.id)) {
-                        elem.value = info[i][elem.id]
+                        elem.value = info[i][elem.id] // If the database has a key that matches an element id, the value of the key is used as the value of the element
                     }
                     else if (elem.id === "id") {
-                        elem.value = info[i]._id // MongoDB's "_id" does not match elem's "id", so the id value must be set manually
+                        elem.value = info[i]._id // The database's "_id" does not match elem's "id", so the id value is specified manually
                     }
                     else {
-                        elem.value = '' // Server.js does not assign properties in MongoDB when the call is created, 
+                        elem.value = '' // If the database does not have a key that matches an element id, an empty string is used as the value of the element
                     }
                 })
             }
         }
-        trackApparatusTimes() // Add event listeners to each cell to create time buttons    
+        trackApparatusTimes() // Add event listeners to each cell to create timestamp buttons    
     }
     catch(err) {
         console.log(err)
@@ -131,8 +131,9 @@ const trackApparatusTimes = function() {
             let cellCount = 3
             while (elem.childNodes[cellCount]?.childNodes[0]) {
                 let cell = elem.childNodes[cellCount].childNodes[0]
-                cell.removeAttribute('disabled')  // Enable all other cells in this row
-                cell.addEventListener('click', function(){ timeStamp(cell); }) // Apply timestamp function to all other cells in this row
+                if (!cell.value) cell.removeAttribute('disabled')  // For each cell in this row, enable cell if it does not contain a timestamp
+                else cell.setAttribute('disabled', '')
+                cell.addEventListener('click', function(){ timeStamp(cell); }) // For each cell in this row, apply timestamp function
                 cellCount += 2
             }
         }
@@ -141,7 +142,7 @@ const trackApparatusTimes = function() {
             let cellCount = 3
             while (elem.childNodes[cellCount]?.childNodes[0]) {
                 let cell = elem.childNodes[cellCount].childNodes[0]
-                cell.setAttribute('disabled', '')  // Disable all other cells in this row
+                cell.setAttribute('disabled', '')  // For each cell in this row, disable cell
                 cellCount += 2
             }
         }
