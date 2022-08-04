@@ -117,13 +117,6 @@ const addApparatusRow = async function(info) {
 
 // Input time in apparatus cells
 
-// Put all rows in an array. [x]
-// if rowArray[i][0] === '' then keep everything else disabled. [x]
-// else if rowArray[i][0] !== '' then disable [0] but remove disable from all others. [x]
-// Add an eventlistener that, when a cell is clicked, will update its value with the current time.
-// if rowArray[i][any] !== '' then disable that cell and all cells to the left of it.
-// when new call is displayed, reset function
-
 const trackApparatusTimes = function() {
     const checkEmptyCells = function(elem) {
         if (elem.childNodes[1].childNodes[0].value) {
@@ -131,10 +124,17 @@ const trackApparatusTimes = function() {
             let cellCount = 3
             while (elem.childNodes[cellCount]?.childNodes[0]) {
                 let cell = elem.childNodes[cellCount].childNodes[0]
-                if (!cell.value) cell.removeAttribute('disabled')  // For each cell in this row, enable cell if it does not contain a timestamp
-                else cell.setAttribute('disabled', '')
+                if (!cell.value) cell.removeAttribute('disabled') // For each timestamp cell in this row, enable cell if it does not contain a time
+                else cell.setAttribute('disabled', '') // For each timestamp cell in this row, disable cell if it does contain a time
                 cell.addEventListener('click', function(){ timeStamp(cell); }) // For each cell in this row, apply timestamp function
                 cellCount += 2
+            }
+            let disableLeft = false
+            while (cellCount >= 3) {
+                cellCount -= 2
+                let cell = elem.childNodes[cellCount].childNodes[0]
+                if (cell.value) disableLeft = true
+                if (disableLeft) cell.setAttribute('disabled', '') // Reiterate backwards, and when a cell with time is found, all timestamp cells to the left are disabled
             }
         }
         else {
@@ -142,7 +142,7 @@ const trackApparatusTimes = function() {
             let cellCount = 3
             while (elem.childNodes[cellCount]?.childNodes[0]) {
                 let cell = elem.childNodes[cellCount].childNodes[0]
-                cell.setAttribute('disabled', '')  // For each cell in this row, disable cell
+                cell.setAttribute('disabled', '')  // For each timestamp cell in this row, disable cell
                 cellCount += 2
             }
         }
@@ -152,7 +152,7 @@ const trackApparatusTimes = function() {
         cell.setAttribute('disabled', '')  // Disable cell after add timestamp
     }
     let apparatusRow = document.querySelectorAll('.apparatusRow')
-    let apparatusRowArray = Array.from(apparatusRow).forEach(elem => checkEmptyCells(elem))
+    Array.from(apparatusRow).forEach(elem => checkEmptyCells(elem))
 }
 
 // Create a new call
