@@ -117,31 +117,42 @@ const addApparatusRow = async function(info) {
 
 // Input time in apparatus cells
 
-// Put all rows in an array.
-// if rowArray[i][0] === '' then keep everything else disabled.
-// else if rowArray[i][0] !== '' then disable [0] but remove disable from all others. Add an eventlistener that, when a cell is clicked, will update its value with the current time.
+// Put all rows in an array. [x]
+// if rowArray[i][0] === '' then keep everything else disabled. [x]
+// else if rowArray[i][0] !== '' then disable [0] but remove disable from all others. [x]
+// Add an eventlistener that, when a cell is clicked, will update its value with the current time.
 // if rowArray[i][any] !== '' then disable that cell and all cells to the left of it.
 // when new call is displayed, reset function
 
 const trackApparatusTimes = function() {
     const checkEmptyCells = function(elem) {
         if (elem.childNodes[1].childNodes[0].value) {
-            elem.childNodes[1].childNodes[0].setAttribute('disabled', '') // If there is an apparatus saved, disable the apparatus cell
+            elem.childNodes[1].childNodes[0].setAttribute('disabled', '') // For each row, if there is an apparatus saved, disable the apparatus cell
             let cellCount = 3
             while (elem.childNodes[cellCount]?.childNodes[0]) {
-                elem.childNodes[cellCount].childNodes[0].removeAttribute('disabled')  // If there is an apparatus saved, enable all other cells in that row
+                let cell = elem.childNodes[cellCount].childNodes[0]
+                cell.removeAttribute('disabled')  // Enable all other cells in this row
+                cell.addEventListener('click', function(){ timeStamp(cell); }) // Apply timestamp function to all other cells in this row
                 cellCount += 2
             }
         }
         else {
-            console.log('this one is empty')
+            elem.childNodes[1].childNodes[0].removeAttribute('disabled') // For each row, if there is not an apparatus saved, enable the apparatus cell
+            let cellCount = 3
+            while (elem.childNodes[cellCount]?.childNodes[0]) {
+                let cell = elem.childNodes[cellCount].childNodes[0]
+                cell.setAttribute('disabled', '')  // Disable all other cells in this row
+                cellCount += 2
+            }
         }
     }
-    const apparatusRow = document.querySelectorAll('.apparatusRow')
-    const apparatusRowArray = Array.from(apparatusRow).forEach(elem => checkEmptyCells(elem))
+    const timeStamp = function(cell) {
+        cell.value = new Date().toLocaleTimeString('en-US', { hour12: false })
+        cell.setAttribute('disabled', '')  // Disable cell after add timestamp
+    }
+    let apparatusRow = document.querySelectorAll('.apparatusRow')
+    let apparatusRowArray = Array.from(apparatusRow).forEach(elem => checkEmptyCells(elem))
 }
-
-// elem.parentNode.parentNode.childNodes[11].childNodes[0].removeAttribute('disabled')
 
 // Create a new call
 
