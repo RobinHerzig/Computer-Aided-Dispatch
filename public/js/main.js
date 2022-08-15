@@ -214,16 +214,16 @@ async function saveSelectedCall() {
 
 // In cad.ejs, iterate through the callNotes array so that each element of the array produces a new line.
 
-// const saveNewNote = function(elem) {
-//     if (elem.value) {
-//         let callNotesObject = document.querySelector('#callNotes').value
-//         let timeStamp = new Date().toLocaleTimeString('en-US', { hour12: false })
-//         let newNote = document.querySelector('#newNote').value
-//         callNotesObject[timeStamp] = newNote
-//         console.log(callNotesObject)
-//         return callNotesObject
-//     }
-// }
+const saveNewNote = function(elem) {
+    if (elem.value) {
+        let callNotesObject = document.querySelector('#callNotes').value
+        let timeStamp = new Date().toLocaleTimeString('en-US', { hour12: false })
+        let newNote = document.querySelector('#newNote').value
+        callNotesObject[timeStamp] = newNote
+        console.log(callNotesObject)
+        return callNotesObject
+    }
+}
 
 // Delete selected call
 

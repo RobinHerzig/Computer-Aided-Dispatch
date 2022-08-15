@@ -49,7 +49,7 @@ app.post('/createCall', (req, res) => {
     db.collection('calls').insertOne({
         date: date,
         time: time,
-        callNotes: {test, test},
+        callNotes: {'test': 'test'},
     })
     .then(data => {
         console.log('Created new call')
