@@ -49,6 +49,7 @@ app.post('/createCall', (req, res) => {
     db.collection('calls').insertOne({
         date: date,
         time: time,
+        callNotes: {test, test},
     })
     .then(data => {
         console.log('Created new call')
@@ -87,7 +88,7 @@ app.put('/saveSelectedCall', (req, res) => {
 
 app.delete('/deleteSelectedCall', (req, res) => {
     db.collection('calls').deleteOne({ "_id": ObjectId(req.body.id)})
-    .then(result => {
+    .then(data => {
         console.log('Deleted selected call')
         res.json('Deleted selected call')
     })

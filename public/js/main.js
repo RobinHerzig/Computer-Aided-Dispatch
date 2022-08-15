@@ -142,14 +142,14 @@ const trackApparatusTimes = function() {
             let cellCount = 3
             while (elem.childNodes[cellCount]?.childNodes[0]) {
                 let cell = elem.childNodes[cellCount].childNodes[0]
-                cell.setAttribute('disabled', '')  // For each timestamp cell in this row, disable cell
+                cell.setAttribute('disabled', '') // For each timestamp cell in this row, disable cell
                 cellCount += 2
             }
         }
     }
     const timeStamp = function(cell) {
         cell.value = new Date().toLocaleTimeString('en-US', { hour12: false })
-        cell.setAttribute('disabled', '')  // Disable cell after add timestamp
+        cell.setAttribute('disabled', '') // Disable cell after add timestamp
     }
     let apparatusRow = document.querySelectorAll('.apparatusRow')
     Array.from(apparatusRow).forEach(elem => checkEmptyCells(elem))
@@ -188,19 +188,42 @@ async function saveSelectedCall() {
         const callInfoDataObject = {}
         const callInfoData = document.querySelectorAll('.callInfoData')
         Array.from(callInfoData).forEach(elem => {
-            callInfoDataObject[elem.id] = elem.value // Populates object with properties and values from the active call form
+            if (elem.id === 'newNote') saveNewNote(elem) // If elem is #newNote, push it to #callNotes object
+            else callInfoDataObject[elem.id] = elem.value // Populates object with properties and values from the active call form
         })
         const res = await fetch('saveSelectedCall', {
             method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(callInfoDataObject)  
-          })
+        })
         const data = await res.json()
     }
     catch(err) {
         console.log(err)
     }
 }
+
+// Save newNote to callNotes array
+
+// In server JS, at call creation, set the value to newNotes to an empty array.
+
+// If the element is newNote and it has value.
+// Concatenate the time to the beginning of the string.
+// Push the value as a new entry into the callNotes array.
+// Reset the value of newNote to an empty string.
+
+// In cad.ejs, iterate through the callNotes array so that each element of the array produces a new line.
+
+// const saveNewNote = function(elem) {
+//     if (elem.value) {
+//         let callNotesObject = document.querySelector('#callNotes').value
+//         let timeStamp = new Date().toLocaleTimeString('en-US', { hour12: false })
+//         let newNote = document.querySelector('#newNote').value
+//         callNotesObject[timeStamp] = newNote
+//         console.log(callNotesObject)
+//         return callNotesObject
+//     }
+// }
 
 // Delete selected call
 
