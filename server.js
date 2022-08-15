@@ -33,7 +33,6 @@ app.get('/', (req, res) => {
 app.get('/cad',(req, res)=>{
     db.collection('calls').find().toArray()
     .then(data => {
-        console.log(data)
         res.render('cad.ejs', { info: data })
     })
     .catch(err => console.log(err))
@@ -49,7 +48,7 @@ app.post('/createCall', (req, res) => {
     db.collection('calls').insertOne({
         date: date,
         time: time,
-        callNotes: {'test': 'test'},
+        callNotesObject: {}
     })
     .then(data => {
         console.log('Created new call')
@@ -73,11 +72,23 @@ app.get('/displaySelectedCall', (req, res) => {
 
 app.put('/saveSelectedCall', (req, res) => {
     const callInfoDataObject = {}
+    const callNotesObject = {}
+    const dt = dateTime.create()
+    const time = dt.format('H:M:S')
+    let newNote = ''
     for (key in req.body) {
-        callInfoDataObject[key] = req.body[key] // Iterate through the request body, create an object out of key/value pairs
+        if (key === 'newNote') {
+            newNote = req.body[key]
+            callInfoDataObject.callNotesObject = {[time]: newNote}
+        }
+        else {
+            callInfoDataObject[key] = req.body[key] // Iterate through the request body, create an object out of key/value pairs
+        }
     }
+    console.log(callInfoDataObject)
     db.collection('calls').updateOne({ "_id": ObjectId(req.body.id)}, {$set: callInfoDataObject})
     .then(data => {
+        console.log(callInfoDataObject)
         console.log('Saved selected call')
         res.json('Saved selected call')
     })

@@ -188,8 +188,7 @@ async function saveSelectedCall() {
         const callInfoDataObject = {}
         const callInfoData = document.querySelectorAll('.callInfoData')
         Array.from(callInfoData).forEach(elem => {
-            if (elem.id === 'newNote') saveNewNote(elem) // If elem is #newNote, push it to #callNotes object
-            else callInfoDataObject[elem.id] = elem.value // Populates object with properties and values from the active call form
+            callInfoDataObject[elem.id] = elem.value // Populates object with properties and values from the active call form
         })
         const res = await fetch('saveSelectedCall', {
             method: 'put',
@@ -200,28 +199,6 @@ async function saveSelectedCall() {
     }
     catch(err) {
         console.log(err)
-    }
-}
-
-// Save newNote to callNotes array
-
-// In server JS, at call creation, set the value to newNotes to an empty array.
-
-// If the element is newNote and it has value.
-// Concatenate the time to the beginning of the string.
-// Push the value as a new entry into the callNotes array.
-// Reset the value of newNote to an empty string.
-
-// In cad.ejs, iterate through the callNotes array so that each element of the array produces a new line.
-
-const saveNewNote = function(elem) {
-    if (elem.value) {
-        let callNotesObject = document.querySelector('#callNotes').value
-        let timeStamp = new Date().toLocaleTimeString('en-US', { hour12: false })
-        let newNote = document.querySelector('#newNote').value
-        callNotesObject[timeStamp] = newNote
-        console.log(callNotesObject)
-        return callNotesObject
     }
 }
 
