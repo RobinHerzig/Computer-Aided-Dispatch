@@ -48,7 +48,6 @@ app.post('/createCall', (req, res) => {
     db.collection('calls').insertOne({
         date: date,
         time: time,
-        callNotesObject: {}
     })
     .then(data => {
         console.log('Created new call')
@@ -76,10 +75,9 @@ app.put('/saveSelectedCall', (req, res) => {
     const date = dt.format('Y-m-d')
     const time = dt.format('H:M:S')
     const timeStamp = date + ' ' + time
-
     for (key in req.body) {
         if (key === 'newNote') {
-            callInfoDataObject[`callNotes.${timeStamp}`] = time + ': ' + [req.body[key]] // Create embedded document for call notes
+            callInfoDataObject[`callNotesObject.${timeStamp}`] = time + ': ' + [req.body[key]] // Create embedded document for call notes
         }
         else {
             callInfoDataObject[key] = req.body[key] // Iterate through the request body, create an object out of key/value pairs

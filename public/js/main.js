@@ -30,6 +30,16 @@ async function displaySelectedCall() {
                     else if (elem.id === "id") {
                         elem.value = info[i]._id // The database's "_id" does not match elem's "id", so the id value is specified manually
                     }
+                    else if (elem.id === "callNotes") {
+                        const callNotes = document.querySelector('#callNotes')
+                        callNotesArray = Object.values(info[i].callNotesObject)
+                        for (let i = 0; i < callNotesArray.length; i++) {
+                            let li = document.createElement('li')
+                            const node = document.createTextNode(callNotesArray[i]) // Parse through callNotesObject to create and display a list of call notes
+                            li.appendChild(node)
+                            callNotes.appendChild(li)
+                        }
+                    }
                     else {
                         elem.value = '' // If the database does not have a key that matches an element id, an empty string is used as the value of the element
                     }
