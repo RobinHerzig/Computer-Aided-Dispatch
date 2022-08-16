@@ -32,7 +32,7 @@ async function displaySelectedCall() {
                     }
                     else if (elem.id === "callNotes") {
                         const callNotes = document.querySelector('#callNotes')
-                        Array.from(callNotes.childNodes).forEach(elem => elem.remove())
+                        Array.from(callNotes.childNodes).forEach(elem => elem.remove()) // Delete call notes from previous displayed call
                         if (info[i].callNotesObject) {
                             callNotesArray = Object.values(info[i].callNotesObject)
                             for (let i = 0; i < callNotesArray.length; i++) {
