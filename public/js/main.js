@@ -188,7 +188,9 @@ async function saveSelectedCall() {
         const callInfoDataObject = {}
         const callInfoData = document.querySelectorAll('.callInfoData')
         Array.from(callInfoData).forEach(elem => {
-            callInfoDataObject[elem.id] = elem.value // Populates object with properties and values from the active call form
+            if (elem.id !== 'callNotes') {
+                callInfoDataObject[elem.id] = elem.value // Populates object with properties and values from the active call form
+            }
         })
         const res = await fetch('saveSelectedCall', {
             method: 'put',

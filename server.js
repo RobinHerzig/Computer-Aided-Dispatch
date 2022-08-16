@@ -72,20 +72,19 @@ app.get('/displaySelectedCall', (req, res) => {
 
 app.put('/saveSelectedCall', (req, res) => {
     const callInfoDataObject = {}
-    const callNotesObject = {}
     const dt = dateTime.create()
+    const date = dt.format('Y-m-d')
     const time = dt.format('H:M:S')
     let newNote = ''
     for (key in req.body) {
         if (key === 'newNote') {
             newNote = req.body[key]
-            callInfoDataObject.callNotesObject = {[time]: newNote}
+            callInfoDataObject.callNotesObject = {[date + " " + time]: time + ": " + newNote} // Create embedded document for call notes
         }
         else {
             callInfoDataObject[key] = req.body[key] // Iterate through the request body, create an object out of key/value pairs
         }
     }
-    console.log(callInfoDataObject)
     db.collection('calls').updateOne({ "_id": ObjectId(req.body.id)}, {$set: callInfoDataObject})
     .then(data => {
         console.log(callInfoDataObject)
