@@ -32,12 +32,15 @@ async function displaySelectedCall() {
                     }
                     else if (elem.id === "callNotes") {
                         const callNotes = document.querySelector('#callNotes')
-                        callNotesArray = Object.values(info[i].callNotesObject)
-                        for (let i = 0; i < callNotesArray.length; i++) {
-                            let li = document.createElement('li')
-                            const node = document.createTextNode(callNotesArray[i]) // Parse through callNotesObject to create and display a list of call notes
-                            li.appendChild(node)
-                            callNotes.appendChild(li)
+                        Array.from(callNotes.childNodes).forEach(elem => elem.remove())
+                        if (info[i].callNotesObject) {
+                            callNotesArray = Object.values(info[i].callNotesObject)
+                            for (let i = 0; i < callNotesArray.length; i++) {
+                                let li = document.createElement('li')
+                                const node = document.createTextNode(callNotesArray[i]) // Parse through callNotesObject to create and display a list of call notes
+                                li.appendChild(node)
+                                callNotes.appendChild(li)
+                            }
                         }
                     }
                     else {

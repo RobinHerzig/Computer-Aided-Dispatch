@@ -76,7 +76,7 @@ app.put('/saveSelectedCall', (req, res) => {
     const time = dt.format('H:M:S')
     const timeStamp = date + ' ' + time
     for (key in req.body) {
-        if (key === 'newNote') {
+        if (key === 'newNote' && req.body[key] !== '') {
             callInfoDataObject[`callNotesObject.${timeStamp}`] = time + ': ' + [req.body[key]] // Create embedded document for call notes
         }
         else {
