@@ -184,7 +184,7 @@ async function createCall() {
         if (id) {
             sessionStorage.setItem('id', id) // Sets new id to sessionStorage, so the new call will be active on reload
         }
-        window.location.reload();
+        window.location.reload(true);
     }
     catch(err) {
         console.log(err)
@@ -233,7 +233,7 @@ async function deleteSelectedCall() {
             })
           })
         const data = await response.json()
-        window.location.reload();
+        window.location.reload(true);
     }
     catch(err) {
         console.log(err)
