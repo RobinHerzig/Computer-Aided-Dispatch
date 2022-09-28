@@ -26,7 +26,7 @@
 <!--     <img src="https://img.shields.io/static/v1?label=|&message=FIREBASE&color=cbb148&style=plastic&logo=firebase"/> -->
 </p>
 
-https://computer-aided-dispatch.herokuapp.com/
+https://computer-aided-dispatch.herokuapp.com/cad?
 
 In emergency services, Computer-aided dispatch (CAD) software is used to track calls for service and first responders.
 
